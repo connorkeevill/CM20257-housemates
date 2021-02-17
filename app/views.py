@@ -11,7 +11,7 @@ def dashboard(request):
 
 
 def signup(request):
-    return render(request, 'app/register.html')
+    return render(request, 'app/signup.html')
 
 
 def forgot_password(request):
