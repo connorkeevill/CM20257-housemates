@@ -12,6 +12,7 @@ class Login(View):
 	def post(self, request):
 		pass
 
+
 def dashboard(request):
 	return render(request, 'app/index.html')
 
