@@ -4,9 +4,13 @@ from django.shortcuts import render
 from django.views import View
 
 
-def login(request):
-	return render(request, 'app/login.html')
+class Login(View):
 
+	def get(self, request):
+		return render(request, 'app/login.html')
+
+	def post(self, request):
+		pass
 
 def dashboard(request):
 	return render(request, 'app/index.html')
