@@ -15,15 +15,19 @@ def dashboard(request):
 class SignUp(View):
 
 	def get(self, request, form=None):
+		# If we haven't been passed a priorly created form, create a new one
 		if form is None:
 			form = UserCreationForm()
+
 		return render(request, 'app/signup.html', {'form': form})
 
 	def post(self, request):
 		form = UserCreationForm(request.POST)
+
 		if form.is_valid():
 			return HttpResponse("I'm happy")
 		else:
+			# We pass the form to the get request to allow it to populate it with the data that was there before then
 			return self.get(request, form)
 
 
