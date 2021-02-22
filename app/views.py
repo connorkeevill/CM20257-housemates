@@ -29,4 +29,4 @@ class SignUp(View):
 
 
 def forgot_password(request):
-    return render(request, 'app/password.html')
+	return render(request, 'app/password.html')
