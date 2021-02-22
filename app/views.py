@@ -4,15 +4,6 @@ from django.shortcuts import render
 from django.views import View
 
 
-class Login(View):
-
-	def get(self, request):
-		return render(request, 'app/login.html')
-
-	def post(self, request):
-		pass
-
-
 def dashboard(request):
 	return render(request, 'app/index.html')
 
