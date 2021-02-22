@@ -206,10 +206,6 @@ svg {
   vertical-align: middle;
 }
 
-table {
-  border-collapse: collapse;
-}
-
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -5434,10 +5430,6 @@ a.close.disabled {
 }
 .modal-dialog-centered::before {
   display: block;
-  height: calc(100vh - 1rem);
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
   content: "";
 }
 .modal-dialog-centered.modal-dialog-scrollable {
