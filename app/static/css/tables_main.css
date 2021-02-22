@@ -137,10 +137,8 @@ iframe {
 
 .limiter {
   width: 1366px;
-  margin: 0 auto;
+  margin: auto;
 }
-
-
 
 .wrap-table100 {
   width: 750px;
@@ -162,16 +160,20 @@ th, td {
 }
 
 .column1 {
-  width: 25%;
+  width: 20%;
   padding-left: 40px;
 }
 
 .column2 {
-  width: 50%;
+  width: 40%;
 }
 
 .column3 {
-  width: 25%;
+  width: 20%;
+}
+
+.column4 {
+  width: 20%;
 }
 
 .table100-head th {

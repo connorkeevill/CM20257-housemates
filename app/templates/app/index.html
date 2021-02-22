@@ -1,47 +1,10 @@
 {% extends "app/dashboard-base.html" %}
 {% block dash_content %}
     <div class="container-fluid">
-        <h1 class="mt-4">Dashboard</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
+        <h1 class="mt-4" align="center" style="color: #fa4251">Dashboard</h1>
+    <!-- Insert calendar in here -->
         <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-xl-6">
@@ -54,9 +17,10 @@
                                         <table>
                                             <thead>
                                             <tr class="row100 head">
-                                                <th class="cell100 column1">Task</th>
-                                                <th class="cell100 column2">Info</th>
+                                                <th class="cell100 column1">Tasks</th>
+                                                <th class="cell100 column2">Description</th>
                                                 <th class="cell100 column3">Due Date</th>
+                                                <th class="cell100 column3">Author</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -66,24 +30,14 @@
                                         <table>
                                             <tbody>
                                             <!-- Placeholders until we can request from DB -->
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Clean Kitchen</td>
-                                                <td class="cell100 column2">Hoover the mop floor, clean oven</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Clean lounge</td>
-                                                <td class="cell100 column2">...</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Take bins out</td>
-                                                <td class="cell100 column2">...</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
+                                            {% for task in tasks %}
+                                                <tr class="row100 body">
+                                                    <td class="cell100 column1">{{ task.title }}</td>
+                                                    <td class="cell100 column2">{{ task.description }}</td>
+                                                    <td class="cell100 column3">{{ task.due_date }}</td>
+                                                    <td class="cell100 column4">{{ task.author }}</td>
+                                                </tr>
+                                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -104,8 +58,9 @@
                                             <thead>
                                             <tr class="row100 head">
                                                 <th class="cell100 column1">Payments</th>
-                                                <th class="cell100 column2">Info</th>
+                                                <th class="cell100 column2">Description</th>
                                                 <th class="cell100 column3">Due Date</th>
+                                                <th class="cell100 column3">Author</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -115,24 +70,14 @@
                                         <table>
                                             <tbody>
                                             <!-- Placeholders until we can request from DB -->
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Rent</td>
-                                                <td class="cell100 column2">Send rent to landlord</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Pay Wi-Fi bill</td>
-                                                <td class="cell100 column2">...</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">Pay Gas</td>
-                                                <td class="cell100 column2">...</td>
-                                                <td class="cell100 column3">6pm 20/02</td>
-                                            </tr>
-
+                                            {% for payment in payments %}
+                                                <tr class="row100 body">
+                                                    <td class="cell100 column1">{{ payment.title }}</td>
+                                                    <td class="cell100 column2">{{ payment.description }}</td>
+                                                    <td class="cell100 column3">{{ payment.due_date }}</td>
+                                                    <td class="cell100 column4">{{ payment.author }}</td>
+                                                </tr>
+                                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -143,6 +88,7 @@
                 </div>
             </div>
         </div>
+    <!--
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table mr-1"></i>
@@ -173,5 +119,6 @@
                 </div>
             </div>
         </div>
+        -->
     </div>
 {% endblock dash_content %}

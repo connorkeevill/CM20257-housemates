@@ -9,6 +9,7 @@ def login(request):
 
 def dashboard(request):
     tasks = {'tasks': Task.objects.all()}
+    # payments = {'payments': Payment.object.all()}
     return render(request, 'app/index.html', tasks)
 
 
