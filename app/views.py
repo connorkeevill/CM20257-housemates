@@ -27,7 +27,7 @@ def create_calendar():
     days = []
     for i in range(1, 31):
         if (i - 1) % 7 == 0:
-            days.append("</ul><ul class=\"days\">")
+            days.append('<ul class="days">')
 
         days.append(create_calendar_day(i))
 
@@ -35,7 +35,7 @@ def create_calendar():
 
 
 def create_calendar_day(day):
-    return "<li class=\"day\"> <div class=\"date\">" + str(day) + "</div> </li>"
+    return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
 
 
 # Calendar base code:

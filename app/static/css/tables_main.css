@@ -136,12 +136,12 @@ iframe {
 [ Table ]*/
 
 .limiter {
-  width: 1366px;
+  width: 100%;
   margin: auto;
 }
 
 .wrap-table100 {
-  width: 750px;
+  width: 100%;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -151,17 +151,14 @@ iframe {
 }
 
 table {
+  overflow-x: auto;
   width: 100%;
 }
 
-th, td {
-  font-weight: unset;
-  padding-right: 10px;
-}
 
 .column1 {
   width: 20%;
-  padding-left: 40px;
+  padding-left: 4%;
 }
 
 .column2 {
