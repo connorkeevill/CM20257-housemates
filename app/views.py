@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 
@@ -21,7 +21,8 @@ class SignUp(View):
 		form = UserCreationForm(request.POST)
 
 		if form.is_valid():
-			return HttpResponse("I'm happy")
+			form.save()
+			return redirect("login")
 		else:
 			# We pass the form to the get request to allow it to populate it with the data that was there before then
 			return self.get(request, form)
