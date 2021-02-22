@@ -1,20 +1,31 @@
-from django.shortcuts import render
-from .models import Task
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
-
-
-def login(request):
-    return render(request, 'app/login.html')
+from django.shortcuts import render, redirect
+from django.views import View
 
 
 def dashboard(request):
-    tasks = {'tasks': Task.objects.all()}
-    # payments = {'payments': Payment.object.all()}
-    return render(request, 'app/index.html', tasks)
+	return render(request, 'app/index.html')
 
 
-def signup(request):
-    return render(request, 'app/signup.html')
+class SignUp(View):
+
+	def get(self, request, form=None):
+		# If we haven't been passed a priorly created form, create a new one
+		if form is None:
+			form = UserCreationForm()
+
+		return render(request, 'app/signup.html', {'form': form})
+
+	def post(self, request):
+		form = UserCreationForm(request.POST)
+
+		if form.is_valid():
+			form.save()
+			return redirect("login")
+		else:
+			# We pass the form to the get request to allow it to populate it with the data that was there before then
+			return self.get(request, form)
 
 
 def forgot_password(request):
