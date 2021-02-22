@@ -5,7 +5,7 @@ from django.views import View
 
 
 def dashboard(request):
-	return render(request, 'app/index.html')
+	return render(request, 'app/dashboard.html')
 
 
 class SignUp(View):
