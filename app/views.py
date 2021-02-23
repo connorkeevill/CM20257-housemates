@@ -5,11 +5,11 @@ from django.views import View
 
 
 def dashboard(request):
-    calendar = create_calendar()
-    tasks = {'tasks': Task.objects.all(),
-             'calendar': calendar}
-    # payments = {'payments': Payment.object.all()}
-    return render(request, 'app/index.html', tasks)
+	calendar = create_calendar()
+	tasks = {'tasks': Task.objects.all(),
+			 'calendar': calendar}
+	# payments = {'payments': Payment.object.all()}
+	return render(request, 'app/index.html', tasks)
 
 
 class SignUp(View):
@@ -37,18 +37,18 @@ def forgot_password(request):
 
 
 def create_calendar():
-    days = []
-    for i in range(1, 31):
-        if (i - 1) % 7 == 0:
-            days.append('<ul class="days">')
+	days = []
+	for i in range(1, 31):
+		if (i - 1) % 7 == 0:
+			days.append('<ul class="days">')
 
-        days.append(create_calendar_day(i))
+		days.append(create_calendar_day(i))
 
-    return days
+	return days
 
 
 def create_calendar_day(day):
-    return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
+	return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
 
 
 # Calendar base code:
