@@ -6,24 +6,7 @@
 
     <!-- Insert calendar in here -->
     <div id="calendar-wrap">
-        <header>
-            <h1>February 2021</h1>
-        </header>
-        <div id="calendar">
-            <ul class="weekdays">
-                <li>Sunday</li>
-                <li>Monday</li>
-                <li>Tuesday</li>
-                <li>Wednesday</li>
-                <li>Thursday</li>
-                <li>Friday</li>
-                <li>Saturday</li>
-            </ul>
-
-            <!-- Days from previous month -->
-
             <ul>
-                <!-- Days in current month -->
                 {% autoescape off %}
                     {% for day in calendar %}
                         {{ day }}
