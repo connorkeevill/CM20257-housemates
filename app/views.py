@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from app.models import Task
+from datetime import date, timedelta
+import calendar
 
 
 def dashboard(request):
@@ -37,22 +39,70 @@ def forgot_password(request):
 	return render(request, 'app/password.html')
 
 
+##################################### Calendar stuff to be moved ####################################################
+
+
+def find_start_day(day, date_num):
+    for i in range(date_num, 1, -1):
+        if day > 0:
+            day = day - 1
+        else:
+            day = 6
+    return day
+
+
+def find_end_day(day, date_num, month):
+    month_length = find_month_length(month)
+
+    for i in range(date_num, month_length):
+        if day < 6:
+            day = day + 1
+        else:
+            day = 0
+
+    return day
+
+
+def find_month_length(month):
+    long_months = ["January", "March", "May", "July", "August", "October", "December"]
+    short_months = ["April", "June", "September", "November"]
+
+    if any(month in s for s in long_months):
+        month_length = 31
+    elif any(month in s for s in short_months):
+        month_length = 30
+    else:
+        month_length = 28
+
+    return month_length
+
+
 def create_calendar():
 	days = []
 	for i in range(1, 31):
 		if (i - 1) % 7 == 0:
-			days.append('</ul> <ul class="days">')
+			days.append('<ul class="days">')
 
 		days.append(create_calendar_day(i))
 
 	return days
 
 
+def create_calendar_month(month):
+    return '<header> <h1>' + month + ' 2021</h1> </header> <div id="calendar"> <ul class="weekdays"> <li>Monday</li> <li>Tuesday</li> <li>Wednesday</li> <li>Thursday</li> <li>Friday</li> <li>Saturday</li> <li>Sunday</li> </ul>'
+
+
+def create_calendar_other_day(day):
+    return '<li class=\"day other-month\"> <div class=\"date\"> ' + str(day) + ' </div> </li>'
+
+
 def create_calendar_day(day):
 	return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
 
 
-# Calendar base code:
+# Tasks remaining:
+# Create event implementation
+# Calendar base code for reference:
 """
 <li class="day">
     					<div class="date">1</div>
