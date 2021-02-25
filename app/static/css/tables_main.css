@@ -1,5 +1,3 @@
-
-
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
@@ -142,12 +140,12 @@ iframe {
 [ Table ]*/
 
 .limiter {
-  width: 100%;
-  margin: auto;
+    width: 100%;
+
 }
 
 .wrap-table100 {
-  width: 100%;
+    width: auto;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -157,14 +155,13 @@ iframe {
 }
 
 table {
-  overflow-x: auto;
-  width: 100%;
+    width: 100%;
+    overflow-x: auto;
 }
 
-
 .column1 {
-  width: 20%;
-  padding-left: 4%;
+    width: 20%;
+    padding-left: 4%;
 }
 
 .column2 {
