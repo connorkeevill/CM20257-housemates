@@ -7,11 +7,18 @@
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                     <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
+                        <form method="post" enctype="multipart/form-data">
+                            <fieldset class="form-group">
+                                <legend>Join today</legend>
 
-                            {{ form | crispy }}
+                                {% csrf_token %}
 
+                                {{ profileForm | crispy }}
+
+                                <hr>
+
+                                {{ userForm | crispy }}
+                            </fieldset>
                             <div>
                                 <button class="btn btn-outline-info" type="submit">Sign Up</button>
                             </div>
