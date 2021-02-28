@@ -26,7 +26,7 @@ class Profile(models.Model):
 	firstName = models.CharField(max_length=26)
 	surname = models.CharField(max_length=26)
 	DOB = models.DateField()
-	status = models.ForeignKey(Status, on_delete=models.CASCADE)
+	status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True)
 
 	def __str__(self):
 		return self.firstName + " " + self.surname + ": " + self.User.username
