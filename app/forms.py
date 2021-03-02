@@ -16,3 +16,7 @@ class ProfileRegistrationForm(ModelForm):
 	class Meta:
 		model = Profile
 		fields = ['firstName', 'surname', 'DOB']
+
+class TaskCreatorForm(forms.Form):
+	class Meta:
+		fields = ['']

@@ -67,8 +67,11 @@ ul, li {
 /* ------------------------------------ */
 input {
     display: block;
-    outline: none;
-    border: none !important;
+    text-align: center;
+    width: 40%;
+    padding: 10px;
+    margin: 20px;
+    font-size: 20px;
 }
 
 textarea {
@@ -82,8 +85,6 @@ textarea:focus, input:focus {
 
 /* ------------------------------------ */
 button {
-    outline: none !important;
-    border: none;
     background: transparent;
 }
 
@@ -136,7 +137,6 @@ iframe {
     border-radius: 5px;
     width: 100%;
     height: calc(100% - 30px);
-    left: 0;
     top: 15px;
 }
 
@@ -202,7 +202,6 @@ table {
     position: absolute;
     width: 100%;
     top: 0;
-    left: 0;
 }
 
 .table100-body {
@@ -254,4 +253,40 @@ table {
 }
 
 
+/* Modal CSS */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
 
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
