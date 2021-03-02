@@ -23,3 +23,7 @@
     
 
 })(jQuery);
+
+function add_button() {
+	document.getElementById("task-author-column").innerHTML += "<button>test</button>";
+}

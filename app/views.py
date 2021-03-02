@@ -9,7 +9,8 @@ from app.models import Task
 
 def dashboard(request):
 	calendar = create_calendar()
-	tasks = {'tasks': Task.objects.all(),
+	task = {'title': 'Clean kitchen', 'description': 'wipe surfaces', 'due_date': '26/02/2021', 'author':'Byron K-F'}
+	tasks = {'tasks': task,
 			 'calendar': calendar}
 	# payments = {'payments': Payment.object.all()}
 	return render(request, 'app/index.html', tasks)
