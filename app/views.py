@@ -47,3 +47,15 @@ class SignUp(View):
 
 def forgot_password(request):
 	return render(request, 'app/password.html')
+
+
+class Account(View):
+
+	def get(self, request):
+
+		profile = request.user.Profile
+
+		context = {'name':profile.firstName}
+
+		return render(request, 'app/account.html', context)
+
