@@ -22,7 +22,7 @@ class Status(models.Model):
 
 
 class Profile(models.Model):
-	User = models.OneToOneField(User, models.CASCADE)
+	User = models.OneToOneField(User, models.CASCADE, related_name='Profile')
 	firstName = models.CharField(max_length=26)
 	surname = models.CharField(max_length=26)
 	DOB = models.DateField()
