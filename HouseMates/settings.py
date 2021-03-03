@@ -100,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 
 # Internationalization
