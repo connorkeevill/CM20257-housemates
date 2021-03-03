@@ -7,24 +7,21 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Dashboard - SB Admin</title>
-    <link href="/static/css/styles.css?id=1234" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
           crossorigin="anonymous"/>
 
-    <!-- link to icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <!-- Links for table formatting -->
-    <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/tables_util.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/tables_main.css?id=1233">
-    <link rel="stylesheet" type="text/css" href="/static/css/calendar_main.css?id=12345">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables_util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tables_main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/calendar_main.css' %}">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
 </head>
-<body onload="add_button()" class="sb-nav-fixed">
+<body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand" href="index.html">Welcome to HouseMates</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>

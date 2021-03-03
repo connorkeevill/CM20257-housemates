@@ -37,14 +37,14 @@ class SignUp(View):
 
 		# Likewise for the profile form
 		if profileForm is None:
-			profileForm = ProfileRegistrationForm()
+			profileForm = ProfileForm()
 
 		return render(request, 'app/signup.html', {'userForm': userForm,
 												   'profileForm': profileForm})
 
 	def post(self, request):
 		userForm = UserRegistrationForm(request.POST)
-		profileForm = ProfileRegistrationForm(request.POST)
+		profileForm = ProfileForm(request.POST)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.instance.Profile = profileForm.instance
@@ -59,3 +59,28 @@ class SignUp(View):
 
 def forgot_password(request):
 	return render(request, 'app/password.html')
+
+
+class Account(View):
+
+	def get(self, request):
+		userForm = UserUpdateForm(instance=request.user)
+		profileForm = ProfileForm(instance=request.user.Profile)
+
+
+		context = {'userForm': userForm,
+				   'profileForm': profileForm}
+
+		return render(request, 'app/account.html', context)
+
+	def post(self, request):
+		userForm = UserUpdateForm(request.POST, instance=request.user)
+		profileForm = ProfileForm(request.POST, instance=request.user.Profile)
+
+		if userForm.is_valid() and profileForm.is_valid():
+			userForm.save()
+			profileForm.save()
+
+		return self.get(request)
+
+

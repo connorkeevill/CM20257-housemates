@@ -12,7 +12,13 @@ class UserRegistrationForm(UserCreationForm):
 		fields = ['username', 'email', 'password1', 'password2']
 
 
-class ProfileRegistrationForm(ModelForm):
+class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
 		fields = ['firstName', 'surname', 'DOB']
+
+
+class UserUpdateForm(ModelForm):
+	class Meta:
+		model = User
+		fields = ['username', 'email']
