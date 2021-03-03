@@ -9,7 +9,7 @@ from app.models import Task
 
 def dashboard(request):
 	calendar = create_calendar()
-	task = {'title': 'Clean kitchen', 'description': 'wipe surfaces', 'due_date': '26/02/2021', 'author':'Byron K-F'}
+	task = {'title': 'Clean kitchen', 'description': 'wipe surfaces', 'due_date': '26/02/2021', 'author':'ck'}
 	tasks = {'tasks': task,
 			 'calendar': calendar}
 	# payments = {'payments': Payment.object.all()}
@@ -25,14 +25,14 @@ class SignUp(View):
 
 		# Likewise for the profile form
 		if profileForm is None:
-			profileForm = ProfileRegistrationForm()
+			profileForm = ProfileForm()
 
 		return render(request, 'app/signup.html', {'userForm': userForm,
 												   'profileForm': profileForm})
 
 	def post(self, request):
 		userForm = UserRegistrationForm(request.POST)
-		profileForm = ProfileRegistrationForm(request.POST)
+		profileForm = ProfileForm(request.POST)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.instance.Profile = profileForm.instance
@@ -52,10 +52,23 @@ def forgot_password(request):
 class Account(View):
 
 	def get(self, request):
+		userForm = UserUpdateForm(instance=request.user)
+		profileForm = ProfileForm(instance=request.user.Profile)
 
-		profile = request.user.Profile
 
-		context = {'name':profile.firstName}
+		context = {'userForm': userForm,
+				   'profileForm': profileForm}
 
 		return render(request, 'app/account.html', context)
+
+	def post(self, request):
+		userForm = UserUpdateForm(request.POST, instance=request.user)
+		profileForm = ProfileForm(request.POST, instance=request.user.Profile)
+
+		if userForm.is_valid() and profileForm.is_valid():
+			userForm.save()
+			profileForm.save()
+
+		return self.get(request)
+
 

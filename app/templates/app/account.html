@@ -1,6 +1,4 @@
-{% extends "app/dashboard-base.html" %}
-{% block dash_content %}
-
+{% load crispy_forms_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +6,32 @@
     <title>{{ user.Profile.firstName }}'s Account</title>
 </head>
 <body>
-    test
-    <p>name: {{ user.Profile.surname }}</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Update your account details</h3></div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            <fieldset class="form-group">
+                                <legend>Your information</legend>
+
+                                {% csrf_token %}
+
+                                {{ profileForm | crispy }}
+
+                                <hr>
+
+                                {{ userForm | crispy }}
+                            </fieldset>
+                            <div>
+                                <button class="btn btn-outline-info" type="submit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-
-{% endblock dash_content %}
