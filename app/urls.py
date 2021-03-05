@@ -9,5 +9,6 @@ urlpatterns = [
 	path('dashboard/', views.dashboard, name='dashboard'),
 	path('signup/', views.SignUp.as_view(), name='signup'),
 	path('forgot-password/', views.forgot_password, name='forgot-password'),
-	path('logout/', authenticationViews.LogoutView.as_view(template_name='app/logout.html'), name='logout')
+	path('logout/', authenticationViews.LogoutView.as_view(template_name='app/logout.html'), name='logout'),
+	path('join-house/', views.joinhouse, name='join-house')
 ]

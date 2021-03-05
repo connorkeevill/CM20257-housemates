@@ -11,6 +11,10 @@ def dashboard(request):
 	return render(request, 'app/dashboard.html')
 
 
+def joinhouse(request):
+	return render(request, 'app/join-house.html')
+
+
 class SignUp(View):
 
 	def get(self, request, form=None):
