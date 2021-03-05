@@ -1,2 +1,136 @@
-<h1>Welcome to the dashboard, {{ user.username }}</h1>
-<a href="{% url 'logout' %}">Logout</a>
+{% extends "app/dashboard-base.html" %}
+{% block dash_content %}
+    <div class="container-fluid">
+        <h1 class="dashboard-title">Dashboard</h1>
+
+        <div class="row">
+            <div class="col-xl">
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+
+                        <form id="/dashboard-form" action="/dashboard/" method="post">
+                            {% csrf_token %}
+                            Please add the details for your new task
+                            <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new
+                                task
+                            </button>
+                            <p></p>
+                            <input type="text" id="task_name" name="task_name" placeholder='task name' required/>
+                            <input type="text" id="task_description" name="task_description"
+                                   placeholder='task description' required/>
+                            <input type="datetime-local" id="task_date_due" name="task_date_due" placeholder='task due date'
+                                   required/>
+                            <br>
+                        </form>
+                        <span class="close">&times;</span>
+                        <div id="modal-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insert calendar in here -->
+        <div class="row">
+            <div class="col-xl">
+                <div id="calendar">
+                    <!-- Days from previous month -->
+                    <ul>
+                        <!-- Days in current month -->
+                        {% autoescape off %}
+                            {% for day in calendar %}
+                                {{ day }}
+                            {% endfor %}
+                        {% endautoescape %}
+                    </ul>
+                </div><!-- /. calendar -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="limiter">
+                        <div class="wrap-table100">
+                            <div class="table100 ver2 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                        <tr class="row100 head">
+                                            <th class="cell100 column1">Tasks</th>
+                                            <th class="cell100 column2">Description</th>
+                                            <th class="cell100 column3">Due Date</th>
+                                            <th id="task-author-column" class="cell100 column3">Author</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table>
+                                        <tbody>
+                                        {% autoescape on %}
+                                            {% for task in tasks %}
+                                                <tr class="row100 body">
+                                                    <td class="cell100 column1">{{ task.title }}</td>
+                                                    <td class="cell100 column2">{{ task.description }}</td>
+                                                    <td class="cell100 column3">{{ task.due_date }}</td>
+                                                    <td class="cell100 column4">{{ task.author }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endautoescape %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="limiter">
+                        <div class="wrap-table100">
+                            <div class="table100 ver2 m-b-110">
+                                <div class="table100-head" onload="">
+                                    <table>
+                                        <thead>
+                                        <tr class="row100 head">
+                                            <th class="cell100 column1">Payments</th>
+                                            <th class="cell100 column2">Description</th>
+                                            <th class="cell100 column3">Due Date</th>
+                                            <th class="cell100 column3">Author</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table>
+                                        <tbody>
+                                        <!-- Placeholders until we can request from DB -->
+                                        {% for payment in payments %}
+                                            <tr class="row100 body">
+                                                <td class="cell100 column1">{{ payment.title }}</td>
+                                                <td class="cell100 column2">{{ payment.description }}</td>
+                                                <td class="cell100 column3">{{ payment.due_date }}</td>
+                                                <td class="cell100 column4">{{ payment.author }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock dash_content %}
