@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 
 
@@ -30,3 +30,13 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.firstName + " " + self.surname + ": " + self.User.username
+
+
+class JoinHouse(models.Model):
+	house_name = 'My House'
+	house_members = models.ManyToManyField(User, related_name='house_members')
+	join_code = models.CharField(max_length=10)
+	house = Group.objects.get(name=house_name, join_code=request.POST.get('join_code'))
+	house.house_members.add(request.user)
+
+

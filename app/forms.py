@@ -22,3 +22,9 @@ class UserUpdateForm(ModelForm):
 	class Meta:
 		model = User
 		fields = ['username', 'email']
+
+
+class JoinHouseForm(ModelForm):
+	class Meta:
+		model = JoinHouse
+		fields = ['code']
