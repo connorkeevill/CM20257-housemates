@@ -7,14 +7,17 @@ from .forms import *
 
 
 def dashboard(request):
+
+	calendar = create_calendar()
+	tasks = Task.objects.all()
+	tasks = []
+
 	if request.method == 'GET':
-		calendar = create_calendar()
 
 		# payments = {'payments': Payment.object.all()}
-		return render(request, 'app/index.html', {'tasks': Task.objects.all(), 'calendar': calendar})
+		return render(request, 'app/index.html', {'tasks': tasks, 'calendar': calendar})
 	else:
-		calendar = create_calendar()
-		tasks = {'tasks': Task.objects.all(),
+		tasks = {'tasks': tasks,
 				 'calendar': calendar}
 
 		task_name = request.POST.get('task_name')
