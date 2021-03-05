@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -11,7 +12,7 @@ def dashboard(request):
 		calendar = create_calendar()
 
 		# payments = {'payments': Payment.object.all()}
-		return render(request, 'app/index.html', {'tasks': Task.objects.all(), 'calendar': calendar})
+		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
 	else:
 		calendar = create_calendar()
 		tasks = {'tasks': Task.objects.all(),
@@ -25,8 +26,10 @@ def dashboard(request):
 		new_task = Task(title=task_name, description=task_description, date_due=task_date_due, author=request.user)
 		new_task.save()
 
-		return render(request, 'app/index.html', tasks)
+		return render(request, 'app/dashboard.html', tasks)
 
+def joinhouse(request):
+	return render(request, 'app/join-house.html')
 
 class SignUp(View):
 
