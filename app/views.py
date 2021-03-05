@@ -7,6 +7,9 @@ from app.models import Task
 from .forms import *
 
 
+def index(request):
+	return  render(request, 'app/index.html')
+
 def dashboard(request):
 	if request.method == 'GET':
 		calendar = create_calendar()
