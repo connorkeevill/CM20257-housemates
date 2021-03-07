@@ -11,8 +11,8 @@ def index(request):
 	return render(request, 'app/index.html')
 
 
-@house_required
 @login_required
+@house_required
 def dashboard(request):
 
 	calendar = create_calendar()
