@@ -8,7 +8,8 @@ from .forms import *
 
 
 def index(request):
-	return  render(request, 'app/index.html')
+	return render(request, 'app/index.html')
+
 
 def dashboard(request):
 	if request.method == 'GET':
@@ -31,8 +32,15 @@ def dashboard(request):
 
 		return render(request, 'app/dashboard.html', tasks)
 
-def joinhouse(request):
-	return render(request, 'app/join-house.html')
+
+class JoinHouse(View):
+
+	def get(self, request):
+		return render(request, 'app/join-house.html')
+
+	def post(self, request):
+		pass
+
 
 class SignUp(View):
 
@@ -73,7 +81,6 @@ class Account(View):
 		userForm = UserUpdateForm(instance=request.user)
 		profileForm = ProfileForm(instance=request.user.Profile)
 
-
 		context = {'userForm': userForm,
 				   'profileForm': profileForm}
 
@@ -88,5 +95,3 @@ class Account(View):
 			profileForm.save()
 
 		return self.get(request)
-
-
