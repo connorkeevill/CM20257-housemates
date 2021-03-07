@@ -19,13 +19,15 @@
                         <form method="post">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Enter House Code:</label>
-                                <input class="form-control" id="exampleInputEmail1" placeholder="House Code">
+                                <label for="exampleInputEmail1">Enter House Code:
+                                    <input class="form-control" name="code" placeholder="House Code">
+                                </label>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-info" type="submit">Join house</button>
                             </div>
                         </form>
-                        <div>
-                            <button class="btn btn-outline-info" type="submit">Join house</button>
-                        </div>
+
                     </div>
                     <div class="card-footer text-center">
                         <div class="small"><a href={% url 'join-house' %}>Don't know your house code? Click here for more information.</a></div>

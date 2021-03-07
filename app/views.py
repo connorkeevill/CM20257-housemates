@@ -33,15 +33,6 @@ def dashboard(request):
 		return render(request, 'app/dashboard.html', tasks)
 
 
-class JoinHouse(View):
-
-	def get(self, request):
-		return render(request, 'app/join-house.html')
-
-	def post(self, request):
-		pass
-
-
 class SignUp(View):
 
 	def get(self, request, userForm=None, profileForm=None):
@@ -105,6 +96,20 @@ class CreateHouse(View):
 		houseName = request.POST.get('house-name')
 		house = House(name=houseName)
 		house.save()
+		house.inhabitants.add(request.user)
+
+		return redirect('dashboard')
+
+
+class JoinHouse(View):
+
+	def get(self, request):
+		return render(request, 'app/join-house.html')
+
+	def post(self, request):
+		houseCode = request.POST.get('code')
+		house = House.objects.get(uniqueCode=houseCode)
+
 		house.inhabitants.add(request.user)
 
 		return redirect('dashboard')
