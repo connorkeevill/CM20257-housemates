@@ -57,4 +57,12 @@ class House(models.Model):
 
 		self.uniqueCode = code
 
+	# Overrides parent method to enforce the creation of a unique code upon saving
+	def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+		if self.uniqueCode is None:
+			self.createUniqueCode()
+		super().save(force_insert, force_update, using, update_fields)
+
 

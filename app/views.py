@@ -104,7 +104,6 @@ class CreateHouse(View):
 	def post(self, request):
 		houseName = request.POST.get('house-name')
 		house = House(name=houseName)
-		house.createUniqueCode()
 		house.save()
 		house.inhabitants.add(request.user)
 
