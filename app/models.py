@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.db import models
+import random, string
 
 
 # Create your models here.
@@ -45,3 +46,15 @@ class House(models.Model):
 	name = models.CharField(max_length=20)
 	uniqueCode = models.CharField(max_length=10)
 	inhabitants = models.ManyToManyField(User, related_name='House')
+
+	# Creates the code for the house
+	def createUniqueCode(self):
+		allChars = string.ascii_letters + string.digits
+		code = ""
+
+		for i in range(10):
+			code += random.choice(allChars)
+
+		self.uniqueCode = code
+
+
