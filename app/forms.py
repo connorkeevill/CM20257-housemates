@@ -24,7 +24,7 @@ class UserUpdateForm(ModelForm):
 		fields = ['username', 'email']
 
 
-class JoinHouseForm(ModelForm):
-	class Meta:
-		model = JoinHouse
-		fields = ['code']
+# class JoinHouseForm(ModelForm):
+# 	class Meta:
+# 		model = JoinHouse
+# 		fields = ['code']
