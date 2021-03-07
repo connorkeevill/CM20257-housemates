@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Create a house</title>
+    <meta charset="UTF-8">
+    <title>Create a house</title>
 </head>
 <body>
-    <h1>Create a house</h1>
-    <hr>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="house-name">
-        <button type="submit">Create house</button>
-    </form>
+<h1>Create a house</h1>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="house-name">
+    <button type="submit">Create house</button>
+</form>
 </body>
 </html>

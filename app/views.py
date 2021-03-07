@@ -1,9 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views import View
 
 from app.logic.calendar import create_calendar
-from app.models import *
 from .forms import *
 
 

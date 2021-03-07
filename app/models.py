@@ -1,6 +1,8 @@
+import random
+import string
+
 from django.contrib.auth.models import User, Group
 from django.db import models
-import random, string
 
 
 # Create your models here.
@@ -59,10 +61,8 @@ class House(models.Model):
 
 	# Overrides parent method to enforce the creation of a unique code upon saving
 	def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+			 update_fields=None):
 
 		if self.uniqueCode == "":
 			self.createUniqueCode()
 		super().save(force_insert, force_update, using, update_fields)
-
-

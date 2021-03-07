@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+	dependencies = [
+		('app', '0002_profile_status'),
+	]
 
-    dependencies = [
-        ('app', '0002_profile_status'),
-    ]
-
-    operations = [
-        migrations.RemoveField(
-            model_name='profile',
-            name='image',
-        ),
-    ]
+	operations = [
+		migrations.RemoveField(
+			model_name='profile',
+			name='image',
+		),
+	]

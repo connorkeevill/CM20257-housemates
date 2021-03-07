@@ -5,20 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+	dependencies = [
+		migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+		('app', '0005_auto_20210303_1338'),
+	]
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('app', '0005_auto_20210303_1338'),
-    ]
-
-    operations = [
-        migrations.CreateModel(
-            name='House',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20)),
-                ('uniqueCode', models.CharField(max_length=10)),
-                ('inhabitants', models.ManyToManyField(related_name='House', to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-    ]
+	operations = [
+		migrations.CreateModel(
+			name='House',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('name', models.CharField(max_length=20)),
+				('uniqueCode', models.CharField(max_length=10)),
+				('inhabitants', models.ManyToManyField(related_name='House', to=settings.AUTH_USER_MODEL)),
+			],
+		),
+	]
