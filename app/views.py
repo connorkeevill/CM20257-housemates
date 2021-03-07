@@ -95,3 +95,11 @@ class Account(View):
 			profileForm.save()
 
 		return self.get(request)
+
+
+class CreateHouse(View):
+	def get(self):
+		pass
+
+	def post(self):
+		pass
