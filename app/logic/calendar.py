@@ -1,105 +1,106 @@
 import calendar
 from datetime import date, timedelta
 
+
 # Tasks remaining:
 # Create event implementation
 
 def find_start_day(day, date_num):
-    for i in range(date_num, 1, -1):
-        if day > 0:
-            day = day - 1
-        else:
-            day = 6
-    return day
+	for i in range(date_num, 1, -1):
+		if day > 0:
+			day = day - 1
+		else:
+			day = 6
+	return day
 
 
 def find_end_day(day, date_num, month):
-    month_length = find_month_length(month)
+	month_length = find_month_length(month)
 
-    for i in range(date_num, month_length):
-        if day < 6:
-            day = day + 1
-        else:
-            day = 0
+	for i in range(date_num, month_length):
+		if day < 6:
+			day = day + 1
+		else:
+			day = 0
 
-    return day
+	return day
 
 
 def find_month_length(month):
-    long_months = ["January", "March", "May", "July", "August", "October", "December"]
-    short_months = ["April", "June", "September", "November"]
+	long_months = ["January", "March", "May", "July", "August", "October", "December"]
+	short_months = ["April", "June", "September", "November"]
 
-    if any(month in s for s in long_months):
-        month_length = 31
-    elif any(month in s for s in short_months):
-        month_length = 30
-    else:
-        month_length = 28
+	if any(month in s for s in long_months):
+		month_length = 31
+	elif any(month in s for s in short_months):
+		month_length = 30
+	else:
+		month_length = 28
 
-    return month_length
+	return month_length
 
 
 def create_calendar():
-    # Gets the date as an integer, the day of the week as a number between 0 and 6 and the month as a string
-    current_date = date.today()
-    current_date_num = current_date.day
-    day = date.weekday(current_date)
-    month = calendar.month_name[current_date.month]
+	# Gets the date as an integer, the day of the week as a number between 0 and 6 and the month as a string
+	current_date = date.today()
+	current_date_num = current_date.day
+	day = date.weekday(current_date)
+	month = calendar.month_name[current_date.month]
 
-    # Finds out what day of the week the month starts on
-    start_day = find_start_day(day, current_date_num)
-    end_day = find_end_day(day, current_date_num, month)
+	# Finds out what day of the week the month starts on
+	start_day = find_start_day(day, current_date_num)
+	end_day = find_end_day(day, current_date_num, month)
 
-    days = []
+	days = []
 
-    # Adds the month name and days of the week
-    days.append(create_calendar_month(month))
+	# Adds the month name and days of the week
+	days.append(create_calendar_month(month))
 
-    # Finds out what the previous month is and gets its length
-    prev_month = calendar.month_name[(date.today().replace(day=1) - timedelta(days=1)).month]
-    prev_month_length = find_month_length(prev_month)
+	# Finds out what the previous month is and gets its length
+	prev_month = calendar.month_name[(date.today().replace(day=1) - timedelta(days=1)).month]
+	prev_month_length = find_month_length(prev_month)
 
-    # Gets the date of the first day to be added from the previous month
-    prev_month_days = prev_month_length - start_day + 1
+	# Gets the date of the first day to be added from the previous month
+	prev_month_days = prev_month_length - start_day + 1
 
-    # Loops until the day of the week the month starts on adding days from the previous month
-    for i in range(0, start_day):
-        if (i - 1) % 7 == 0:
-            days.append('<ul class="days">')
+	# Loops until the day of the week the month starts on adding days from the previous month
+	for i in range(0, start_day):
+		if (i - 1) % 7 == 0:
+			days.append('<ul class="days">')
 
-        days.append(create_calendar_other_day(prev_month_days))
-        prev_month_days = prev_month_days + 1
+		days.append(create_calendar_other_day(prev_month_days))
+		prev_month_days = prev_month_days + 1
 
-    # Calculates the length of the current month
-    month_length = find_month_length(month)
+	# Calculates the length of the current month
+	month_length = find_month_length(month)
 
-    # Adds the days of the current month to the calendar
-    for i in range(1, month_length + 1):
-        if (i - 1) % 7 == 0:
-            days.append('<ul class="days">')
+	# Adds the days of the current month to the calendar
+	for i in range(1, month_length + 1):
+		if (i - 1) % 7 == 0:
+			days.append('<ul class="days">')
 
-        days.append(create_calendar_day(i))
+		days.append(create_calendar_day(i))
 
-    # Loops until the day of the week the month ends on adding days from the next month
-    for i in range(1, 7 - end_day):
-        if (i - 1) % 7 == 0:
-            days.append('<ul class="days">')
+	# Loops until the day of the week the month ends on adding days from the next month
+	for i in range(1, 7 - end_day):
+		if (i - 1) % 7 == 0:
+			days.append('<ul class="days">')
 
-        days.append(create_calendar_other_day(i))
+		days.append(create_calendar_other_day(i))
 
-    return days
+	return days
 
 
 def create_calendar_month(month):
-    return '<header> <h1>' + month + ' 2021</h1> </header> <div id="calendar"> <ul class="weekdays"> <li>Monday</li> <li>Tuesday</li> <li>Wednesday</li> <li>Thursday</li> <li>Friday</li> <li>Saturday</li> <li>Sunday</li> </ul>'
+	return '<header> <h1>' + month + ' 2021</h1> </header> <div id="calendar"> <ul class="weekdays"> <li>Monday</li> <li>Tuesday</li> <li>Wednesday</li> <li>Thursday</li> <li>Friday</li> <li>Saturday</li> <li>Sunday</li> </ul>'
 
 
 def create_calendar_other_day(day):
-    return '<li class=\"day other-month\"> <div class=\"date\"> ' + str(day) + ' </div> </li>'
+	return '<li class=\"day other-month\"> <div class=\"date\"> ' + str(day) + ' </div> </li>'
 
 
 def create_calendar_day(day):
-    return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
+	return '<li class=\"day\"> <div class=\"date\">' + str(day) + '</div> </li>'
 
 
 # Calendar base code for reference:

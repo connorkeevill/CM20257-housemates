@@ -1,4 +1,7 @@
-from django.contrib.auth.models import User
+import random
+import string
+
+from django.contrib.auth.models import User, Group
 from django.db import models
 
 
@@ -21,6 +24,8 @@ class Status(models.Model):
 		return self.type
 
 
+# Profiles are used with a one-to-one relationship with users to allow more data to be stored, that django doesn't
+# handle.
 class Profile(models.Model):
 	User = models.OneToOneField(User, models.CASCADE, related_name='Profile')
 	firstName = models.CharField(max_length=26)
@@ -30,3 +35,34 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.firstName + " " + self.surname + ": " + self.User.username
+
+
+# class JoinHouse(models.Model):
+# 	house_name = 'My House'
+# 	house_members = models.ManyToManyField(User, related_name='house_members')
+# 	join_code = models.CharField(max_length=10)
+# 	house = Group.objects.get(name=house_name, join_code=request.POST.get('join_code'))
+# 	house.house_members.add(request.user)
+
+class House(models.Model):
+	name = models.CharField(max_length=20)
+	uniqueCode = models.CharField(max_length=10)
+	inhabitants = models.ManyToManyField(User)
+
+	# Creates the code for the house
+	def createUniqueCode(self):
+		allChars = string.ascii_letters + string.digits
+		code = ""
+
+		for i in range(10):
+			code += random.choice(allChars)
+
+		self.uniqueCode = code
+
+	# Overrides parent method to enforce the creation of a unique code upon saving
+	def save(self, force_insert=False, force_update=False, using=None,
+			 update_fields=None):
+
+		if self.uniqueCode == "":
+			self.createUniqueCode()
+		super().save(force_insert, force_update, using, update_fields)

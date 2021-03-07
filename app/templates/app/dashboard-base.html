@@ -12,19 +12,19 @@
           crossorigin="anonymous"/>
 
     <!-- Links for table formatting -->
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/vendor/bootstrap/css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables_util.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/tables_main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/vendor/animate/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/vendor/select2/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/tables_util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/tables_main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/calendar_main.css' %}">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Welcome to HouseMates</a>
+    <a class="navbar-brand" href="dashboard.html">Welcome to HouseMates</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
     </button>
     <!-- Navbar Search-->
@@ -116,48 +116,48 @@
 <script src="/static/vendor/select2/select2.min.js"></script>
 <script src="/static/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script>
-    $('.js-pscroll').each(function () {
-        var ps = new PerfectScrollbar(this);
+	$('.js-pscroll').each(function () {
+		var ps = new PerfectScrollbar(this);
 
-        $(window).on('resize', function () {
-            ps.update();
-        })
-    });
+		$(window).on('resize', function () {
+			ps.update();
+		})
+	});
 
 
 </script>
 <script src="/static/js/dashboard_main.js"></script>
 <!--===============================================================================================-->
 <script>
-    function add_button() {
-        // on click show 'modal' which takes info for new task
-        document.getElementById("task-author-column").innerHTML += "<button onclick='new_task()' style='float: right; padding-right: 10%; color: #fa4251; outline: none !important;\n" +
-            "    border: none;' " +
-            "id=\"add-task-btn\"><i class=\"fas fa-plus\"></i></button>";
+	function add_button() {
+		// on click show 'modal' which takes info for new task
+		document.getElementById("task-author-column").innerHTML += "<button onclick='new_task()' style='float: right; padding-right: 10%; color: #fa4251; outline: none !important;\n" +
+			"    border: none;' " +
+			"id=\"add-task-btn\"><i class=\"fas fa-plus\"></i></button>";
 
-    }
+	}
 
-    // show modal to add new task
-    function new_task() {
-        let modal = document.getElementById("myModal");
+	// show modal to add new task
+	function new_task() {
+		let modal = document.getElementById("myModal");
 
-        // Get the <span> element that closes the modal
-        let span = document.getElementsByClassName("close")[0];
+		// Get the <span> element that closes the modal
+		let span = document.getElementsByClassName("close")[0];
 
-        modal.style.display = "block";
+		modal.style.display = "block";
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function () {
+			modal.style.display = "none";
+		}
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function (event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	}
 
 </script>
 

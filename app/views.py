@@ -1,11 +1,18 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 
 from app.logic.calendar import create_calendar
-from app.models import Task
 from .forms import *
+from .decorators import house_required
 
 
+def index(request):
+	return render(request, 'app/index.html')
+
+
+@house_required
+@login_required
 def dashboard(request):
 
 	calendar = create_calendar()
@@ -15,7 +22,7 @@ def dashboard(request):
 	if request.method == 'GET':
 
 		# payments = {'payments': Payment.object.all()}
-		return render(request, 'app/index.html', {'tasks': tasks, 'calendar': calendar})
+		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
 	else:
 		tasks = {'tasks': tasks,
 				 'calendar': calendar}
@@ -28,7 +35,7 @@ def dashboard(request):
 		new_task = Task(title=task_name, description=task_description, date_due=task_date_due, author=request.user)
 		new_task.save()
 
-		return render(request, 'app/index.html', tasks)
+		return render(request, 'app/dashboard.html', tasks)
 
 
 class SignUp(View):
@@ -70,7 +77,6 @@ class Account(View):
 		userForm = UserUpdateForm(instance=request.user)
 		profileForm = ProfileForm(instance=request.user.Profile)
 
-
 		context = {'userForm': userForm,
 				   'profileForm': profileForm}
 
@@ -87,3 +93,28 @@ class Account(View):
 		return self.get(request)
 
 
+class CreateHouse(View):
+	def get(self, request):
+		return render(request, 'app/create-house.html')
+
+	def post(self, request):
+		houseName = request.POST.get('house-name')
+		house = House(name=houseName)
+		house.save()
+		house.inhabitants.add(request.user)
+
+		return redirect('dashboard')
+
+
+class JoinHouse(View):
+
+	def get(self, request):
+		return render(request, 'app/join-house.html')
+
+	def post(self, request):
+		houseCode = request.POST.get('code')
+		house = House.objects.get(uniqueCode=houseCode)
+
+		house.inhabitants.add(request.user)
+
+		return redirect('dashboard')
