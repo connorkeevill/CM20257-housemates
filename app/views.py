@@ -98,8 +98,8 @@ class Account(View):
 
 
 class CreateHouse(View):
-	def get(self):
-		pass
+	def get(self, request):
+		return render(request, 'app/create-house.html')
 
-	def post(self):
+	def post(self, request):
 		pass
