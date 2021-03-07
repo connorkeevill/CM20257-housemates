@@ -1,14 +1,18 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 
 from app.logic.calendar import create_calendar
 from .forms import *
+from .decorators import house_required
 
 
 def index(request):
 	return render(request, 'app/index.html')
 
 
+@house_required
+@login_required
 def dashboard(request):
 	if request.method == 'GET':
 		calendar = create_calendar()
