@@ -61,7 +61,7 @@ class House(models.Model):
 	def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
 
-		if self.uniqueCode is None:
+		if self.uniqueCode == "":
 			self.createUniqueCode()
 		super().save(force_insert, force_update, using, update_fields)
 
