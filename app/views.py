@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from app.logic.calendar import create_calendar
-from app.models import Task
+from app.models import *
 from .forms import *
 
 
@@ -102,4 +102,10 @@ class CreateHouse(View):
 		return render(request, 'app/create-house.html')
 
 	def post(self, request):
-		pass
+		houseName = request.POST.get('house-name')
+		house = House(name=houseName)
+		house.createUniqueCode()
+		house.save()
+		house.inhabitants.add(request.user)
+
+		return redirect('dashboard')

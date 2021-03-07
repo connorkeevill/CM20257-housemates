@@ -45,7 +45,7 @@ class Profile(models.Model):
 class House(models.Model):
 	name = models.CharField(max_length=20)
 	uniqueCode = models.CharField(max_length=10)
-	inhabitants = models.ManyToManyField(User, related_name='House')
+	inhabitants = models.ManyToManyField(User)
 
 	# Creates the code for the house
 	def createUniqueCode(self):

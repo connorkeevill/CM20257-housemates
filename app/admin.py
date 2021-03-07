@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Task)
 admin.site.register(Profile)
 admin.site.register(Status)
+admin.site.register(House)
