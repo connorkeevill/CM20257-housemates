@@ -11,7 +11,8 @@ def index(request):
 	return render(request, 'app/index.html')
 
 
-@login_required
+@login_required # This decorator needs to come first as @house_required depends on the user object to validate: it
+# can't do that without a logged in user
 @house_required
 def dashboard(request):
 
