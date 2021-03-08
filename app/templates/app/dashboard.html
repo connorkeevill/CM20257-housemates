@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="col-xl">
-                <div id="myModal" class="modal">
+                <div id="myModal-task" class="modal">
 
                     <!-- Modal content -->
                     <div class="modal-content">
@@ -25,7 +25,36 @@
                                    required/>
                             <br>
                         </form>
-                        <span class="close">&times;</span>
+                        <span class="close-task">&times;</span>
+                        <div id="modal-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl">
+                <div id="myModal-payment" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+
+                        <form id="/dashboard-form" action="/dashboard/" method="post">
+                            {% csrf_token %}
+                            Please add the details for your new payment
+                            <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new payment
+                            </button>
+                            <p></p>
+                            <input type="text" id="payment_name" name="payment_name" placeholder='payment name'
+                                   required/>
+                            <input type="number" id="payment_amount" name="payment_amount"
+                                   placeholder='payment amount' required/>
+                            <input type="datetime-local" id="payment_date_due" name="payment_date_due"
+                                   placeholder='payment due date'
+                                   required/>
+                            <br>
+                        </form>
+                        <span class="close-payment">&times;</span>
                         <div id="modal-content"></div>
                     </div>
                 </div>
@@ -64,7 +93,7 @@
                                             <th class="cell100 column1">Tasks</th>
                                             <th class="cell100 column2">Description</th>
                                             <th class="cell100 column3">Due Date</th>
-                                            <th id="task-author-column" class="cell100 column3">Author</th>
+                                            <th id="task-author-column" class="cell100 column4">Author</th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -98,14 +127,14 @@
                     <div class="limiter">
                         <div class="wrap-table100">
                             <div class="table100 ver2 m-b-110">
-                                <div class="table100-head" onload="">
+                                <div class="table100-head">
                                     <table>
                                         <thead>
                                         <tr class="row100 head">
                                             <th class="cell100 column1">Payments</th>
                                             <th class="cell100 column2">Description</th>
                                             <th class="cell100 column3">Due Date</th>
-                                            <th class="cell100 column3">Author</th>
+                                            <th id="payment-author-column" class="cell100 column4">Author</th>
                                         </tr>
                                         </thead>
                                     </table>
