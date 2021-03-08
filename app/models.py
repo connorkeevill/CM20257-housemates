@@ -1,11 +1,7 @@
 import random
 import string
-
 from django.contrib.auth.models import User, Group
 from django.db import models
-
-
-# Create your models here.
 
 
 # Profiles are used with a one-to-one relationship with users to allow more data to be stored, that django doesn't
@@ -52,13 +48,34 @@ class House(models.Model):
 			self.createUniqueCode()
 		super().save(force_insert, force_update, using, update_fields)
 
+	def __str__(self):
+		return self.name
 
-class Task(models.Model):
-	title = models.CharField(max_length=100)
+
+class CalendarEntry(models.Model):
+	title = models.CharField(max_length=50)
 	description = models.TextField()
-	date_due = models.DateTimeField()
-	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	hosue = models.ForeignKey(House, on_delete=models.CASCADE)
+	date = models.DateField()
+	house = models.ForeignKey(House, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.title
+
+
+class Task(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	date = models.ForeignKey(CalendarEntry, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.date.title
+
+
+class Expense(models.Model):
+	amount = models.IntegerField()  # We should store these amounts in pence, not pounds - otherwise we may get floating
+	# point problems
+	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+	payees = models.ManyToManyField(User)
+	date = models.ForeignKey(CalendarEntry, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.date.title
