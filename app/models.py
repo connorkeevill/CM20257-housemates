@@ -6,22 +6,6 @@ from django.db import models
 
 
 # Create your models here.
-class Task(models.Model):
-	title = models.CharField(max_length=100)
-	description = models.TextField()
-	date_due = models.DateTimeField()
-	author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-	def __str__(self):
-		return self.title
-
-
-class Status(models.Model):
-	type = models.CharField(max_length=20)
-	description = models.TextField()
-
-	def __str__(self):
-		return self.type
 
 
 # Profiles are used with a one-to-one relationship with users to allow more data to be stored, that django doesn't
@@ -37,12 +21,13 @@ class Profile(models.Model):
 		return self.firstName + " " + self.surname + ": " + self.User.username
 
 
-# class JoinHouse(models.Model):
-# 	house_name = 'My House'
-# 	house_members = models.ManyToManyField(User, related_name='house_members')
-# 	join_code = models.CharField(max_length=10)
-# 	house = Group.objects.get(name=house_name, join_code=request.POST.get('join_code'))
-# 	house.house_members.add(request.user)
+class Status(models.Model):
+	type = models.CharField(max_length=20)
+	description = models.TextField()
+
+	def __str__(self):
+		return self.type
+
 
 class House(models.Model):
 	name = models.CharField(max_length=20)
@@ -66,3 +51,14 @@ class House(models.Model):
 		if self.uniqueCode == "":
 			self.createUniqueCode()
 		super().save(force_insert, force_update, using, update_fields)
+
+
+class Task(models.Model):
+	title = models.CharField(max_length=100)
+	description = models.TextField()
+	date_due = models.DateTimeField()
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	hosue = models.ForeignKey(House, on_delete=models.CASCADE())
+
+	def __str__(self):
+		return self.title
