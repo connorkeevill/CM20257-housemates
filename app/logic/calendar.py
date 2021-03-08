@@ -1,9 +1,29 @@
 import calendar
 from datetime import date, timedelta
+from app.models import CalendarEntry, Task, Expense
 
 
 # Tasks remaining:
 # Create event implementation
+
+"""
+Hi future Stevie, it's Connor
+I've just done some work for allowing you to access the calendar events. At the top you'll see a new import statement
+that's pulling in the classes that will get them from the database. You'll be able to get all the calendar events by
+calling CalendarEntry.objects.all(). Have a look at QuerySets from the django docs and you should get an idea of how 
+this will work. 
+
+CalendarEntry()s all have a data associated with them (as well as a house - so be careful not to pull in events that 
+belong to a different house), and either an Expense() or a Task(). To be honest I don't know how you'll differentiate
+between the two yet, but I'm sure there's a way. Let me know if that ends up being tricky.
+ 
+Once you get a house's CalendarEntry()s you'll be able to get the corresponding Expense()/Task() and put it onto the 
+calendar.
+
+You know where to find me if you get stuck :)
+
+P.S. Sorry if any of this makes no sense, it's getting quite late and I'm pretty tired
+"""
 
 def find_start_day(day, date_num):
 	for i in range(date_num, 1, -1):
