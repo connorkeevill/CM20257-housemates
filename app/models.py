@@ -4,6 +4,14 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 
 
+class Status(models.Model):
+	type = models.CharField(max_length=20)
+	description = models.TextField()
+
+	def __str__(self):
+		return self.type
+
+
 # Profiles are used with a one-to-one relationship with users to allow more data to be stored, that django doesn't
 # handle.
 class Profile(models.Model):
@@ -15,14 +23,6 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.firstName + " " + self.surname + ": " + self.User.username
-
-
-class Status(models.Model):
-	type = models.CharField(max_length=20)
-	description = models.TextField()
-
-	def __str__(self):
-		return self.type
 
 
 class House(models.Model):
