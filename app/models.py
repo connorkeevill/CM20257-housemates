@@ -64,7 +64,7 @@ class CalendarEntry(models.Model):
 
 class Task(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	date = models.ForeignKey(CalendarEntry, on_delete=models.CASCADE)
+	date = models.OneToOneField(CalendarEntry, on_delete=models.CASCADE, null=True)
 
 	def __str__(self):
 		return self.date.title
@@ -73,9 +73,9 @@ class Task(models.Model):
 class Expense(models.Model):
 	amount = models.IntegerField()  # We should store these amounts in pence, not pounds - otherwise we may get floating
 	# point problems
-	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+	recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='incomingPayment')
 	payees = models.ManyToManyField(User)
-	date = models.ForeignKey(CalendarEntry, on_delete=models.CASCADE)
+	date = models.OneToOneField(CalendarEntry, on_delete=models.CASCADE, null=True)
 
 	def __str__(self):
 		return self.date.title
