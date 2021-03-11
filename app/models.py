@@ -19,7 +19,7 @@ class Profile(models.Model):
 	firstName = models.CharField(max_length=26)
 	surname = models.CharField(max_length=26)
 	DOB = models.DateField()
-	status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True)
+	status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True)
 
 	def __str__(self):
 		return self.firstName + " " + self.surname + ": " + self.User.username
@@ -28,7 +28,7 @@ class Profile(models.Model):
 class House(models.Model):
 	name = models.CharField(max_length=20)
 	uniqueCode = models.CharField(max_length=10)
-	inhabitants = models.ManyToManyField(User)
+	inhabitants = models.ManyToManyField(User, through='HouseMembership')
 
 	# Creates the code for the house
 	def createUniqueCode(self):
@@ -50,6 +50,13 @@ class House(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class HouseMembership(models.Model):
+	house = models.ForeignKey(House, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	admin = models.BooleanField(default=False)
+	currentHouse = models.BooleanField(default=False)
 
 
 class CalendarEntry(models.Model):
