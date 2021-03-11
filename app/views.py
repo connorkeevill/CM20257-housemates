@@ -130,7 +130,7 @@ class JoinHouse(View):
 		return redirect('dashboard')
 
 
-class House(View):
+class HousePage(View):
 	def get(self, request, form=None):
 		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
 		# change this to use a foreign key

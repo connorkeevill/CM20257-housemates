@@ -14,5 +14,5 @@ urlpatterns = [
 	path('account/', login_required(views.Account.as_view()), name='account'),
 	path('join-house/', views.JoinHouse.as_view(), name='join-house'),
 	path('create-house/', views.CreateHouse.as_view(), name='create-house'),
-	path('house/', views.House.as_view(), name='house')
+	path('house/', views.HousePage.as_view(), name='house')
 ]
