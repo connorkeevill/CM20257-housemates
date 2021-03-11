@@ -6,6 +6,13 @@
     <title>House settings</title>
 </head>
 <body>
+    <h1>{{ house.name }}</h1>
+    <h3>This house's code is {{ house.uniqueCode }}</h3>
+    <h3>Want to generate a new code?</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input name="codeGenerator" type="submit">Generate a new code</input>
+    </form>
     <form method="post">
         {% csrf_token %}
         {{ form | crispy }}

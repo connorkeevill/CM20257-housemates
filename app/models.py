@@ -40,6 +40,10 @@ class House(models.Model):
 
 		self.uniqueCode = code
 
+	def generateNewCode(self):
+		self.createUniqueCode()
+		self.save()
+
 	# Overrides parent method to enforce the creation of a unique code upon saving
 	def save(self, force_insert=False, force_update=False, using=None,
 			 update_fields=None):

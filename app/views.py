@@ -38,7 +38,7 @@ def dashboard(request):
 			payment_date_due = request.POST.get('payment_date_due')
 
 			# need to get author from
-			new_payment = Payment(title=payment_name, amount=payment_amount, date_due=payment_date_due,
+			new_payment = Expense(title=payment_name, amount=payment_amount, date_due=payment_date_due,
 								  author=request.user)
 			new_payment.save()
 
@@ -138,16 +138,24 @@ class HousePage(View):
 		if form is None:
 			form = HouseUpdateForm(instance=house)
 
-		context = {'form': form}
+		context = {'form': form,
+				   'house': house}
 
 		return render(request, 'app/house.html', context)
 
 	def post(self, request):
-		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+
+		if 'codeGenerator' in request.POST:
+			house.generateNewCode()
+			return self.get(request)
+
 		form = HouseUpdateForm(request.POST, instance=house)
 
 		if form.is_valid():
 			form.save()
 
 		return self.get(request, form)
+
+
 
