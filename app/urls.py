@@ -11,7 +11,7 @@ urlpatterns = [
 	path('signup/', views.SignUp.as_view(), name='signup'),
 	path('forgot-password/', views.forgot_password, name='forgot-password'),
 	path('logout/', authenticationViews.LogoutView.as_view(template_name='app/logout.html'), name='logout'),
-	path('account/', login_required(views.Account.as_view())),
+	path('account/', login_required(views.Account.as_view()), name='account'),
 	path('join-house/', views.JoinHouse.as_view(), name='join-house'),
 	path('create-house/', views.CreateHouse.as_view(), name='create-house')
 ]
