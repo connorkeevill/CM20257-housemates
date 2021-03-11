@@ -1,7 +1,5 @@
 import calendar
 from datetime import date, timedelta
-from app.models import CalendarEntry, Task, Expense
-
 
 # Tasks remaining:
 # Create event implementation
@@ -24,6 +22,7 @@ You know where to find me if you get stuck :)
 
 P.S. Sorry if any of this makes no sense, it's getting quite late and I'm pretty tired
 """
+
 
 def find_start_day(day, date_num):
 	for i in range(date_num, 1, -1):

@@ -13,5 +13,6 @@ urlpatterns = [
 	path('logout/', authenticationViews.LogoutView.as_view(template_name='app/logout.html'), name='logout'),
 	path('account/', login_required(views.Account.as_view()), name='account'),
 	path('join-house/', views.JoinHouse.as_view(), name='join-house'),
-	path('create-house/', views.CreateHouse.as_view(), name='create-house')
+	path('create-house/', views.CreateHouse.as_view(), name='create-house'),
+	path('house/', views.House.as_view(), name='house')
 ]
