@@ -16,7 +16,7 @@ class UserRegistrationForm(UserCreationForm):
 class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['firstName', 'surname', 'DOB']
+		fields = ['firstName', 'surname', 'DOB', 'status']
 
 
 class UserUpdateForm(ModelForm):
