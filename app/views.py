@@ -108,7 +108,9 @@ class CreateHouse(View):
 		houseName = request.POST.get('house-name')
 		house = House(name=houseName)
 		house.save()
-		house.inhabitants.add(request.user)
+
+		membership = HouseMembership(house=house, user=request.user, currentHouse=True, admin=True)
+		membership.save()
 
 		return redirect('dashboard')
 
@@ -122,7 +124,8 @@ class JoinHouse(View):
 		houseCode = request.POST.get('code')
 		house = House.objects.get(uniqueCode=houseCode)
 
-		house.inhabitants.add(request.user)
+		membership = HouseMembership(house=house, user=request.user, currentHouse=True, admin=False)
+		membership.save()
 
 		return redirect('dashboard')
 
