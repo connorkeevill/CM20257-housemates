@@ -54,14 +54,14 @@ class SignUp(View):
 
 		# Likewise for the profile form
 		if profileForm is None:
-			profileForm = ProfileForm()
+			profileForm = ProfileRegistrationForm()
 
 		return render(request, 'app/signup.html', {'userForm': userForm,
 												   'profileForm': profileForm})
 
 	def post(self, request):
 		userForm = UserRegistrationForm(request.POST)
-		profileForm = ProfileForm(request.POST)
+		profileForm = ProfileRegistrationForm(request.POST)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.instance.Profile = profileForm.instance
@@ -82,7 +82,7 @@ class Account(View):
 
 	def get(self, request):
 		userForm = UserUpdateForm(instance=request.user)
-		profileForm = ProfileForm(instance=request.user.Profile)
+		profileForm = ProfileUpdateFrom(instance=request.user.Profile)
 
 		context = {'userForm': userForm,
 				   'profileForm': profileForm}
@@ -91,7 +91,7 @@ class Account(View):
 
 	def post(self, request):
 		userForm = UserUpdateForm(request.POST, instance=request.user)
-		profileForm = ProfileForm(request.POST, instance=request.user.Profile)
+		profileForm = ProfileUpdateFrom(request.POST, instance=request.user.Profile)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.save()
