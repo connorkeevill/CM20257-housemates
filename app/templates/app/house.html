@@ -20,6 +20,11 @@
         {{ form | crispy }}
         <button class="btn btn-outline-dark" type="submit">Update house</button>
     </form>
+
+    <h3>Rooms</h3>
+    {% for room in rooms %}
+        <p>{{ room.name }} costs {{ room.rent }} per month</p>
+    {% endfor %}
 {% endblock %}
 </body>
 </html>
