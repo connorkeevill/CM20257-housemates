@@ -150,6 +150,8 @@ class HousePage(View):
 		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
 		# change this to use a foreign key
 
+		rooms = house.room.all()
+
 		if form is None:
 			form = HouseUpdateForm(instance=house)
 
