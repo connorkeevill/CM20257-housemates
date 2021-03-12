@@ -2,25 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/index_style.css">
+    <title>Housemates</title>
 </head>
 <body>
-<h1>Hi, welcome to HouseMates! This page is still under construction, but here are a few links that might be more
-    interesting</h1>
-<ul>
-    <li>
-        <a href="{% url 'login' %}">Login page</a>
-    </li>
-    <li>
-        <a href="{% url 'signup' %}">Signup page</a>
-    </li>
-    <li>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-    </li>
-    <li>
-        <a href="{% url 'join-house' %}">Join house page</a>
-    </li>
-</ul>
+
+<header id="showcase">
+
+    <div class = "navbar">
+        <img id="logo">
+        <nav>
+            <ul>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'join-house' %}">Join house</a></li>
+                    <li><a href="{% url 'account' %}">Account</a></li>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class = "content">
+        <h1>Join Housemates today!</h1>
+        <p1>Sign up to Housemates to make paying bills and organising chores easier <br>
+            already have an account? Then you can login below</p1>
+        <p2><br> ------- </p2>
+
+        <div>
+            <a href="{% url 'login' %}" class="link">Login</a>
+            <a href="{% url 'signup' %}" class ="link">Sign up</a>
+        </div>
+    </div>
+
+</header>
+
+
 
 </body>
 </html>
+

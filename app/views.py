@@ -138,3 +138,34 @@ class JoinHouse(View):
         house.inhabitants.add(request.user)
 
         return redirect('dashboard')
+
+
+class HousePage(View):
+	def get(self, request, form=None):
+		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
+		# change this to use a foreign key
+
+		if form is None:
+			form = HouseUpdateForm(instance=house)
+
+		context = {'form': form,
+				   'house': house}
+
+		return render(request, 'app/house.html', context)
+
+	def post(self, request):
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+
+		if 'codeGenerator' in request.POST:
+			house.generateNewCode()
+			return self.get(request)
+
+		form = HouseUpdateForm(request.POST, instance=house)
+
+		if form.is_valid():
+			form.save()
+
+		return self.get(request, form)
+
+
+

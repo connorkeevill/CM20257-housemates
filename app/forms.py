@@ -16,7 +16,7 @@ class UserRegistrationForm(UserCreationForm):
 class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['firstName', 'surname', 'DOB']
+		fields = ['firstName', 'surname', 'DOB', 'status']
 
 
 class UserUpdateForm(ModelForm):
@@ -24,7 +24,8 @@ class UserUpdateForm(ModelForm):
 		model = User
 		fields = ['username', 'email']
 
-# class JoinHouseForm(ModelForm):
-# 	class Meta:
-# 		model = JoinHouse
-# 		fields = ['code']
+
+class HouseUpdateForm(ModelForm):
+	class Meta:
+		model = House
+		fields = ['name', 'inhabitants']
