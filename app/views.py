@@ -18,77 +18,79 @@ def dashboard(request):
 	if request.method == 'GET':
 		calendar = create_calendar()
 
-        return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
-    else:
-        calendar = create_calendar()
-        tasks = {'tasks': Task.objects.all(),
-                 'calendar': calendar}
-        try:
-            # title = models.CharField(max_length=50)
-            # description = models.TextField()
-            # date = models.DateField()
-            # house = models.ForeignKey(House, on_delete=models.CASCADE)
+		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
 
-            # author=request.user
-            task_name = request.POST.get('task_name')
-            task_description = request.POST.get('task_description')
-            task_date_due = request.POST.get('task_date_due')
+	else:
+		calendar = create_calendar()
+		tasks = {'tasks': Task.objects.all(),
+				 'calendar': calendar}
+		try:
+			# title = models.CharField(max_length=50)
+			# description = models.TextField()
+			# date = models.DateField()
+			# house = models.ForeignKey(House, on_delete=models.CASCADE)
 
-            # need to get author from
-            new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
-                                               house=request.house)
-            new_calendar_entry.save()
-            new_task = Task(author=request.user, date=new_calendar_entry)
-            new_task.save()
+			# author=request.user
+			task_name = request.POST.get('task_name')
+			task_description = request.POST.get('task_description')
+			task_date_due = request.POST.get('task_date_due')
 
-        except:
-            payment_name = request.POST.get('payment_name')
-            payment_amount = request.POST.get('payment_amount')
-            payment_date_due = request.POST.get('payment_date_due')
-            payment_recipient = request.POST.get('recipient')
-            payment_payees = request.POST.get('payees')
+			# need to get author from
+			new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
+											   house=request.house)
+			new_calendar_entry.save()
+			new_task = Task(author=request.user, date=new_calendar_entry)
+			new_task.save()
 
-            # need to get author from
-            new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
-                                               house=request.house)
-            new_calendar_entry.save()
-            new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees, date=new_calendar_entry)
-            new_payment.save()
+		except:
+			payment_name = request.POST.get('payment_name')
+			payment_amount = request.POST.get('payment_amount')
+			payment_date_due = request.POST.get('payment_date_due')
+			payment_recipient = request.POST.get('recipient')
+			payment_payees = request.POST.get('payees')
 
-        return render(request, 'app/index.html', tasks)
+			# need to get author from
+			new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
+											   house=request.house)
+			new_calendar_entry.save()
+			new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees,
+								  date=new_calendar_entry)
+			new_payment.save()
+
+		return render(request, 'app/index.html', tasks)
 
 
 class SignUp(View):
 
-    def get(self, request, userForm=None, profileForm=None):
-        # If we haven't been passed a priorly created user form, create a new one
-        if userForm is None:
-            userForm = UserRegistrationForm()
+	def get(self, request, userForm=None, profileForm=None):
+		# If we haven't been passed a priorly created user form, create a new one
+		if userForm is None:
+			userForm = UserRegistrationForm()
 
-		# Likewise for the profile form
-		if profileForm is None:
-			profileForm = ProfileRegistrationForm()
+			# Likewise for the profile form
+			if profileForm is None:
+				profileForm = ProfileRegistrationForm()
 
-        return render(request, 'app/signup.html', {'userForm': userForm,
-                                                   'profileForm': profileForm})
+		return render(request, 'app/signup.html', {'userForm': userForm,
+												   'profileForm': profileForm})
 
 	def post(self, request):
 		userForm = UserRegistrationForm(request.POST)
 		profileForm = ProfileRegistrationForm(request.POST)
 
-        if userForm.is_valid() and profileForm.is_valid():
-            userForm.instance.Profile = profileForm.instance
-            profileForm.instance.User = userForm.instance
-            userForm.save()
-            profileForm.save()
-            return redirect("login")
-        else:
-            # We pass the userForm to the get request to allow it to populate it with the data that was there before then
-            return self.get(request, userForm, profileForm)
+		if userForm.is_valid() and profileForm.is_valid():
+			userForm.instance.Profile = profileForm.instance
+			profileForm.instance.User = userForm.instance
+			userForm.save()
+			profileForm.save()
+			return redirect("login")
+		else:
+			# We pass the userForm to the get request to allow it to populate it with the data that was there before then
+			return self.get(request, userForm, profileForm)
 
 
 def forgot_password(request):
-    return render(request, 'app/password.html')
+	return render(request, 'app/password.html')
 
 
 class Account(View):
@@ -169,6 +171,3 @@ class HousePage(View):
 			form.save()
 
 		return self.get(request, form)
-
-
-
