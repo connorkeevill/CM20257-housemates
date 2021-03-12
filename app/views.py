@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from app.logic.calendar import create_calendar
-from .decorators import house_required
 from .forms import *
+from .decorators import house_required
 
 
 def index(request):
@@ -19,27 +19,42 @@ def dashboard(request):
 		calendar = create_calendar()
 
 		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
+
 	else:
 		calendar = create_calendar()
 		tasks = {'tasks': Task.objects.all(),
 				 'calendar': calendar}
 		try:
+			# title = models.CharField(max_length=50)
+			# description = models.TextField()
+			# date = models.DateField()
+			# house = models.ForeignKey(House, on_delete=models.CASCADE)
+
+			# author=request.user
 			task_name = request.POST.get('task_name')
 			task_description = request.POST.get('task_description')
 			task_date_due = request.POST.get('task_date_due')
 
 			# need to get author from
-			new_task = Task(title=task_name, description=task_description, date_due=task_date_due, author=request.user)
+			new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
+											   house=request.house)
+			new_calendar_entry.save()
+			new_task = Task(author=request.user, date=new_calendar_entry)
 			new_task.save()
 
 		except:
 			payment_name = request.POST.get('payment_name')
 			payment_amount = request.POST.get('payment_amount')
 			payment_date_due = request.POST.get('payment_date_due')
+			payment_recipient = request.POST.get('recipient')
+			payment_payees = request.POST.get('payees')
 
 			# need to get author from
-			new_payment = Expense(title=payment_name, amount=payment_amount, date_due=payment_date_due,
-								  author=request.user)
+			new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
+											   house=request.house)
+			new_calendar_entry.save()
+			new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees,
+								  date=new_calendar_entry)
 			new_payment.save()
 
 		return render(request, 'app/index.html', tasks)
@@ -52,16 +67,16 @@ class SignUp(View):
 		if userForm is None:
 			userForm = UserRegistrationForm()
 
-		# Likewise for the profile form
-		if profileForm is None:
-			profileForm = ProfileForm()
+			# Likewise for the profile form
+			if profileForm is None:
+				profileForm = ProfileRegistrationForm()
 
 		return render(request, 'app/signup.html', {'userForm': userForm,
 												   'profileForm': profileForm})
 
 	def post(self, request):
 		userForm = UserRegistrationForm(request.POST)
-		profileForm = ProfileForm(request.POST)
+		profileForm = ProfileRegistrationForm(request.POST)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.instance.Profile = profileForm.instance
@@ -82,7 +97,7 @@ class Account(View):
 
 	def get(self, request):
 		userForm = UserUpdateForm(instance=request.user)
-		profileForm = ProfileForm(instance=request.user.Profile)
+		profileForm = ProfileUpdateFrom(instance=request.user.Profile)
 
 		context = {'userForm': userForm,
 				   'profileForm': profileForm}
@@ -91,7 +106,7 @@ class Account(View):
 
 	def post(self, request):
 		userForm = UserUpdateForm(request.POST, instance=request.user)
-		profileForm = ProfileForm(request.POST, instance=request.user.Profile)
+		profileForm = ProfileUpdateFrom(request.POST, instance=request.user.Profile)
 
 		if userForm.is_valid() and profileForm.is_valid():
 			userForm.save()
@@ -156,6 +171,3 @@ class HousePage(View):
 			form.save()
 
 		return self.get(request, form)
-
-
-
