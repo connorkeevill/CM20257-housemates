@@ -156,7 +156,8 @@ class HousePage(View):
 			form = HouseUpdateForm(instance=house)
 
 		context = {'form': form,
-				   'house': house}
+				   'house': house,
+				   'rooms': rooms}
 
 		return render(request, 'app/house.html', context)
 
