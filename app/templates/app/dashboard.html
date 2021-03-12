@@ -42,13 +42,19 @@
                         <form id="/dashboard-form" action="/dashboard/" method="post">
                             {% csrf_token %}
                             Please add the details for your new payment
-                            <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new payment
+                            <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new
+                                payment
                             </button>
                             <p></p>
                             <input type="text" id="payment_name" name="payment_name" placeholder='payment name'
                                    required/>
                             <input type="number" id="payment_amount" name="payment_amount"
                                    placeholder='payment amount' required/>
+                            <!-- pull the data from house members to let user pick -->
+                            <input type="number" id="recipient" name="recipient"
+                                   placeholder='recipient' required/>
+                            <input type="number" id="payees" name="payees"
+                                   placeholder='payees' required/>
                             <input type="datetime-local" id="payment_date_due" name="payment_date_due"
                                    placeholder='payment due date'
                                    required/>

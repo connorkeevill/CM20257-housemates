@@ -24,22 +24,35 @@ def dashboard(request):
         tasks = {'tasks': Task.objects.all(),
                  'calendar': calendar}
         try:
+            # title = models.CharField(max_length=50)
+            # description = models.TextField()
+            # date = models.DateField()
+            # house = models.ForeignKey(House, on_delete=models.CASCADE)
+
+            # author=request.user
             task_name = request.POST.get('task_name')
             task_description = request.POST.get('task_description')
             task_date_due = request.POST.get('task_date_due')
 
             # need to get author from
-            new_task = Task(title=task_name, description=task_description, date_due=task_date_due, author=request.user)
+            new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
+                                               house=request.house)
+            new_calendar_entry.save()
+            new_task = Task(author=request.user, date=new_calendar_entry)
             new_task.save()
 
         except:
             payment_name = request.POST.get('payment_name')
             payment_amount = request.POST.get('payment_amount')
             payment_date_due = request.POST.get('payment_date_due')
+            payment_recipient = request.POST.get('recipient')
+            payment_payees = request.POST.get('payees')
 
             # need to get author from
-            new_payment = Payment(title=payment_name, amount=payment_amount, date_due=payment_date_due,
-                                  author=request.user)
+            new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
+                                               house=request.house)
+            new_calendar_entry.save()
+            new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees, date=new_calendar_entry)
             new_payment.save()
 
         return render(request, 'app/index.html', tasks)
