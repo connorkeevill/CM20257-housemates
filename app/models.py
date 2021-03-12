@@ -94,5 +94,5 @@ class Expense(models.Model):
 
 class Room(models.Model):
 	inhabitant = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='inhabitant')
-	house = models.ForeignKey(House, on_delete=models.CASCADE, relates_name='house')
+	house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='house')
 	rent = models.IntegerField()  # Again, it's a good idea to store the rent in pence
