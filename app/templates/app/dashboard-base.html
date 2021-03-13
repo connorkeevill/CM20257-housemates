@@ -63,6 +63,13 @@
         <main>
             {% block dash_content %}{% endblock %}
         </main>
+
+        <div class="container-fluid">
+            {% block status_content %}{% endblock %}
+        </div>
+
+
+
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
@@ -72,6 +79,8 @@
         </footer>
     </div>
 </div>
+
+
 
 <!-- Table scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"

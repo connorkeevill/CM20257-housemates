@@ -18,7 +18,10 @@ def dashboard(request):
 	if request.method == 'GET':
 		calendar = create_calendar()
 
-		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar})
+
+		house = request.user.house_set.first()
+
+		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar, 'house': house})
 
 	else:
 		calendar = create_calendar()
@@ -99,8 +102,11 @@ class Account(View):
 		userForm = UserUpdateForm(instance=request.user)
 		profileForm = ProfileUpdateFrom(instance=request.user.Profile)
 
+		house = request.user.house_set.first()
+
 		context = {'userForm': userForm,
-				   'profileForm': profileForm}
+				   'profileForm': profileForm,
+				   'house': house}
 
 		return render(request, 'app/account.html', context)
 

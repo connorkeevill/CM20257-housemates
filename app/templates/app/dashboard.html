@@ -170,3 +170,43 @@
     </div>
     </div>
 {% endblock dash_content %}
+
+<!-- Status Table -->
+
+{% block status_content %}
+<style>
+    h5 {text-align: center;}
+</style>
+
+<h5><strong>Status Table</strong></h5>
+<table class="table table-hover table-bordered table-sm">
+    <caption> Status of HouseMates</caption>
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Username</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for houseMember in house.inhabitants.all %}
+    <tr>
+        <td>{{ houseMember.Profile.firstName}} {{ houseMember.Profile.surname }}</td>
+        <td>{{ houseMember.username }}</td>
+
+        {% if houseMember.Profile.status.type == 'Available' %}
+        <td class="table-success">{{ houseMember.Profile.status }}</td>
+        {% elif houseMember.Profile.status.type == 'Away' %}
+        <td class="table-warning">{{ houseMember.Profile.status }}</td>
+        {% elif houseMember.Profile.status.type == 'Busy' %}
+        <td>{{ houseMember.Profile.status }}</td>
+        {% else %}
+        <td class="table-secondary">{{ houseMember.Profile.status }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock status_content %}
