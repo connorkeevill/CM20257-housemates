@@ -18,7 +18,6 @@ def dashboard(request):
 	if request.method == 'GET':
 		calendar = create_calendar()
 
-
 		house = request.user.house_set.first()
 
 		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar, 'house': house})
@@ -40,7 +39,7 @@ def dashboard(request):
 
 			# need to get author from
 			new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
-											   house=request.house)
+											   house=request.user.house_set.first())
 			new_calendar_entry.save()
 			new_task = Task(author=request.user, date=new_calendar_entry)
 			new_task.save()
@@ -54,7 +53,7 @@ def dashboard(request):
 
 			# need to get author from
 			new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
-											   house=request.house)
+											   house=request.user.house_set.first())
 			new_calendar_entry.save()
 			new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees,
 								  date=new_calendar_entry)
