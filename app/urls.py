@@ -15,5 +15,8 @@ urlpatterns = [
 	path('account/', login_required(views.Account.as_view()), name='account'),
 	path('join-house/', views.JoinHouse.as_view(), name='join-house'),
 	path('create-house/', views.CreateHouse.as_view(), name='create-house'),
-	path('house/', house_admin_required(login_required(views.HousePage.as_view())), name='house')
+	path('house/', house_admin_required(login_required(views.HousePage.as_view())), name='house'),
+	path('rent-distribution/', views.RentDistribution.as_view(), name='rent-distribution'),
+	path('add-room/', views.AddRoom.as_view(), name='add-room'),
+
 ]

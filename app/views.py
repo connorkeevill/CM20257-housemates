@@ -174,3 +174,64 @@ class HousePage(View):
 			form.save()
 
 		return self.get(request, form)
+
+
+check = False
+
+
+class AddRoom(View):
+
+	def get(self, request):  # , form=None
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+		rooms = house.room.all()
+
+		if check is True:
+			return redirect('rent-distribution')
+
+		'''if form is None:
+			form = AddRoomForm()
+		else:
+			return redirect('rent-distribution')'''
+		# 'form': form,
+
+		context = {'house': house, 'rooms': rooms}
+
+		return render(request, 'app/add-room.html', context)
+
+	def post(self, request):
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+		room_name = request.POST.get('room-name')
+		rent_amount = request.POST.get('rent-amount')
+		room = Room(name=room_name, rent=rent_amount, house=house)
+		room.save()
+		check = True
+
+		return redirect('rent-distribution')
+
+
+class RentDistribution(View):
+
+	def get(self, request, form=None):
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+		rooms = house.room.all()
+		if form is None:
+			form = RoomUpdateForm()
+
+		context = {'form': form, 'house': house, 'rooms': rooms}
+
+		return render(request, 'app/rent-distribution.html', context)
+
+	def post(self, request):
+		# house = request.user.house_set.get(housemembership__currentHouse=True)
+		# room = house.room.name()
+		# form = RoomUpdateForm(request.POST, instance=)
+
+		# if form.is_valid():
+			# form.instance.
+		# house = request.user.house_set.get(housemembership__currentHouse=True)
+		# room_name = request.POST.get('room-name')
+		# rent_amount = request.POST.get('rent-amount')
+		# room = Room(name=room_name, rent=rent_amount, house=house)
+		# room.save()
+
+		return self.get(request)

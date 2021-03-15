@@ -2,7 +2,7 @@ import random
 import string
 from django.contrib.auth.models import User, Group
 from django.db import models
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Status(models.Model):
 	type = models.CharField(max_length=20)
@@ -96,4 +96,5 @@ class Room(models.Model):
 	name = models.CharField(max_length=20)
 	inhabitant = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='inhabitant', null=True)
 	house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='room')
-	rent = models.IntegerField()  # Again, it's a good idea to store the rent in pence
+	rent = models.IntegerField(default=1, null=True)
+	# Again, it's a good idea to store the rent in pence

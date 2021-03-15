@@ -1,0 +1,32 @@
+{% extends "app/dashboard-base.html" %}
+{% load crispy_forms_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Rent Distribution{% endblock %}</title>
+</head>
+<body>
+{% block dash_content %}
+    <h1>{{ house.name }} Rent Distribution</h1>
+    <h2>Add a room</h2>
+    <h3 style="padding-top:5px; padding-right:270px; text-align:right">Total Rent</h3>
+    <form method="post">
+        {% csrf_token %}
+        <h4 style="text-align:left">Room name</h4>
+        <input type="text" name="room-name">
+        <h4 style="text-align:left">Rent</h4><input type="number" rent="rent-amount">
+        <button class="btn btn-outline-dark" type="submit">Enter room</button>
+    </form>
+    <h3>Rooms in {{ house.name }}</h3>
+    {% for room in rooms %}
+         <h6 style="padding-left:20px; text-align:left">{{ room.name }} </h6>
+        <p style="padding-left:20px; padding-bottom:10px; text-align:left">Rent: {{ room.rent }} per month</p>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>
+
+
+
+

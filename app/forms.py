@@ -34,3 +34,15 @@ class HouseUpdateForm(ModelForm):
 	class Meta:
 		model = House
 		fields = ['name', 'inhabitants']
+
+
+'''class AddRoomForm(ModelForm):
+	class Meta:
+		model = Room
+		fields = ['name', 'rent']'''
+
+
+class RoomUpdateForm(ModelForm):
+	class Meta:
+		model = Room
+		fields = ['name', 'rent']
