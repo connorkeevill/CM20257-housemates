@@ -177,8 +177,8 @@ class ShoppingList(View):
 		house = request.user.house_set.first()
 
 		form = ShoppingListForm()
-		shoppingList = house.shoppingitem_set.all()
-		context = {'form': form, 'list':shoppingList}
+		shoppingList = house.shoppingitem_set.filter(complete=False)
+		context = {'house':house,'form': form, 'list':shoppingList}
 
 		return render(request, 'app/shopping-list.html', context)
 
@@ -191,3 +191,10 @@ class ShoppingList(View):
 		return self.get(request)
 
 
+def completeShoppingList(request, id):
+
+	item = ShoppingItem.get(id=id)
+	item.complete = True
+	item.save()
+
+	return redirect('shopping-list')

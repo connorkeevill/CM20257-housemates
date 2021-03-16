@@ -3,6 +3,7 @@
 {% block dash_content %}
 <div class="container-fluid">
     <div class="row-cols-1">
+        <h2>Shopping list for {{ house.name }}</h2>
         <ul class="list-group">
             {% for item in list %}
                 <li class="list-group-item">{{ item.name }}, {{ item.creator.Profile.firstName }}</li>
@@ -15,7 +16,7 @@
 
             {{ form | crispy }}
 
-            <button class="btn" type="submit">Add to shopping list</button>
+            <button class="btn btn-outline-primary" type="submit">Add to shopping list</button>
         </form>
     </div>
 </div>
