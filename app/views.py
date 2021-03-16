@@ -15,24 +15,9 @@ def index(request):
 # can't do that without a logged in user
 @house_required
 def dashboard(request):
-	if request.method == 'GET':
-		calendar = create_calendar()
-
-		house = request.user.house_set.first()
-
-		return render(request, 'app/dashboard.html', {'tasks': Task.objects.all(), 'calendar': calendar, 'house': house})
-
-	else:
-		calendar = create_calendar()
-		tasks = {'tasks': Task.objects.all(),
-				 'calendar': calendar}
+	# If we are processing a POST request here
+	if request.method == 'POST':
 		try:
-			# title = models.CharField(max_length=50)
-			# description = models.TextField()
-			# date = models.DateField()
-			# house = models.ForeignKey(House, on_delete=models.CASCADE)
-
-			# author=request.user
 			task_name = request.POST.get('task_name')
 			task_description = request.POST.get('task_description')
 			task_date_due = request.POST.get('task_date_due')
@@ -59,7 +44,12 @@ def dashboard(request):
 								  date=new_calendar_entry)
 			new_payment.save()
 
-		return render(request, 'app/index.html', tasks)
+	calendar = create_calendar()
+	house = request.user.house_set.first()
+	payments = Expense.objects.filter(date__house=house)
+	tasks = Task.objects.filter(date__house=house)
+
+	return render(request, 'app/dashboard.html', {'tasks': tasks, 'calendar': calendar, 'house': house, 'payments': payments})
 
 
 class SignUp(View):

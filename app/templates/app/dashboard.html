@@ -111,9 +111,9 @@
                                         {% autoescape on %}
                                             {% for task in tasks %}
                                                 <tr class="row100 body">
-                                                    <td class="cell100 column1">{{ task.title }}</td>
-                                                    <td class="cell100 column2">{{ task.description }}</td>
-                                                    <td class="cell100 column3">{{ task.due_date }}</td>
+                                                    <td class="cell100 column1">{{ task.date.title }}</td>
+                                                    <td class="cell100 column2">{{ task.date.description }}</td>
+                                                    <td class="cell100 column3">{{ task.date.date }}</td>
                                                     <td class="cell100 column4">{{ task.author }}</td>
                                                 </tr>
                                             {% endfor %}
@@ -152,10 +152,10 @@
                                         <!-- Placeholders until we can request from DB -->
                                         {% for payment in payments %}
                                             <tr class="row100 body">
-                                                <td class="cell100 column1">{{ payment.title }}</td>
-                                                <td class="cell100 column2">{{ payment.description }}</td>
-                                                <td class="cell100 column3">{{ payment.due_date }}</td>
-                                                <td class="cell100 column4">{{ payment.author }}</td>
+                                                <td class="cell100 column1">{{ payment.amount }}</td>
+                                                <td class="cell100 column2">{{ payment.date.title }}</td>
+                                                <td class="cell100 column3">{{ payment.date.date }}</td>
+                                                <td class="cell100 column4">{{ payment.recipient }}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
