@@ -193,7 +193,7 @@ class ShoppingList(View):
 
 def completeShoppingList(request, id):
 
-	item = ShoppingItem.get(id=id)
+	item = ShoppingItem.objects.get(id=id)
 	item.complete = True
 	item.save()
 
