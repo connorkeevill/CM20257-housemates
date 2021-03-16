@@ -1,0 +1,23 @@
+{% extends "app/dashboard-base.html" %}
+{% load crispy_forms_filters %}
+{% block dash_content %}
+<div class="container-fluid">
+    <div class="row-cols-1">
+        <ul class="list-group">
+            {% for item in list %}
+                <li class="list-group-item">{{ item.name }}, {{ item.creator.Profile.firstName }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row-cols-1">
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form | crispy }}
+
+            <button class="btn" type="submit">Add to shopping list</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

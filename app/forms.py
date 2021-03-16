@@ -34,3 +34,9 @@ class HouseUpdateForm(ModelForm):
 	class Meta:
 		model = House
 		fields = ['name', 'inhabitants']
+
+
+class ShoppingListForm(ModelForm):
+	class Meta:
+		model = ShoppingItem
+		fields = ['name']

@@ -59,9 +59,9 @@ class SignUp(View):
 		if userForm is None:
 			userForm = UserRegistrationForm()
 
-			# Likewise for the profile form
-			if profileForm is None:
-				profileForm = ProfileRegistrationForm()
+		# Likewise for the profile form
+		if profileForm is None:
+			profileForm = ProfileRegistrationForm()
 
 		return render(request, 'app/signup.html', {'userForm': userForm,
 												   'profileForm': profileForm})
@@ -169,3 +169,25 @@ class HousePage(View):
 			form.save()
 
 		return self.get(request, form)
+
+
+class ShoppingList(View):
+
+	def get(self, request):
+		house = request.user.house_set.first()
+
+		form = ShoppingListForm()
+		shoppingList = house.shoppingitem_set.all()
+		context = {'form': form, 'list':shoppingList}
+
+		return render(request, 'app/shopping-list.html', context)
+
+	def post(self, request):
+		form = ShoppingListForm(request.POST)
+		form.instance.house = request.user.house_set.first()
+		form.instance.creator = request.user
+		form.save()
+
+		return self.get(request)
+
+
