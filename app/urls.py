@@ -16,5 +16,6 @@ urlpatterns = [
 	path('join-house/', login_required(views.JoinHouse.as_view()), name='join-house'),
 	path('create-house/', login_required(views.CreateHouse.as_view()), name='create-house'),
 	path('house/', house_admin_required(login_required(views.HousePage.as_view())), name='house'),
-	path('shopping-list/', login_required(house_required(views.ShoppingList.as_view())), name='shopping-list')
+	path('shopping-list/', login_required(house_required(views.ShoppingList.as_view())), name='shopping-list'),
+	path('shopping-list-complete/<int:id>/', views.completeShoppingList, name='shopping-list-complete')
 ]
