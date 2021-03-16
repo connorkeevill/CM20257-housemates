@@ -94,6 +94,13 @@ class Expense(models.Model):
 
 class Room(models.Model):
 	name = models.CharField(max_length=20)
-	inhabitant = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='inhabitant', null=True)
+	inhabitant = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='room', null=True)
 	house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='room')
 	rent = models.IntegerField()  # Again, it's a good idea to store the rent in pence
+
+
+class ShoppingItem(models.Model):
+	name = models.CharField(max_length=30)
+	creator = models.ForeignKey(User, on_delete=models.CASCADE)
+	house = models.ForeignKey(House, on_delete=models.CASCADE)
+	complete = models.BooleanField(default=False)
