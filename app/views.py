@@ -198,3 +198,24 @@ def completeShoppingList(request, id):
 	item.save()
 
 	return redirect('shopping-list')
+
+class RentDistribution(View):
+
+	def get(self, request, form=None):
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+		rooms = house.room.all()
+		if form is None:
+			form = RoomCreationForm()
+
+		context = {'form': form, 'house': house, 'rooms': rooms}
+
+		return render(request, 'app/rent-distribution.html', context)
+
+	def post(self, request):
+		house = request.user.house_set.get(housemembership__currentHouse=True)
+		form = RoomCreationForm(request.POST)
+		form.instance.house = house
+		form.instance.inhabitant = request.user
+		form.save()
+
+		return self.get(request)

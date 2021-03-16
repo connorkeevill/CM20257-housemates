@@ -3,7 +3,6 @@ import string
 from django.contrib.auth.models import User, Group
 from django.db import models
 
-
 class Status(models.Model):
 	type = models.CharField(max_length=20)
 	description = models.TextField()
@@ -99,11 +98,5 @@ class Room(models.Model):
 	name = models.CharField(max_length=20)
 	inhabitant = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='room', null=True)
 	house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='room')
-	rent = models.IntegerField()  # Again, it's a good idea to store the rent in pence
-
-
-class ShoppingItem(models.Model):
-	name = models.CharField(max_length=30)
-	creator = models.ForeignKey(User, on_delete=models.CASCADE)
-	house = models.ForeignKey(House, on_delete=models.CASCADE)
-	complete = models.BooleanField(default=False)
+	rent = models.IntegerField(default=1, null=True)
+	# Again, it's a good idea to store the rent in pence

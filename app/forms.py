@@ -40,3 +40,9 @@ class ShoppingListForm(ModelForm):
 	class Meta:
 		model = ShoppingItem
 		fields = ['name']
+
+
+class RoomCreationForm(ModelForm):
+	class Meta:
+		model = Room
+		fields = ['name', 'rent']
