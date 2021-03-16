@@ -42,7 +42,7 @@ class HouseUpdateForm(ModelForm):
 		fields = ['name', 'rent']'''
 
 
-class RoomUpdateForm(ModelForm):
+class RoomCreationForm(ModelForm):
 	class Meta:
 		model = Room
 		fields = ['name', 'rent']
