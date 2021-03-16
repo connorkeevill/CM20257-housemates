@@ -80,6 +80,9 @@ class Task(models.Model):
 	def __str__(self):
 		return self.date.title
 
+	def year_month_day(self):
+		return self.date.strftime('%Y,%m-1,%d')
+
 
 class Expense(models.Model):
 	amount = models.IntegerField()  # We should store these amounts in pence, not pounds - otherwise we may get floating
