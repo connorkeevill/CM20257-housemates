@@ -100,3 +100,10 @@ class Room(models.Model):
 	house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='room')
 	rent = models.IntegerField(default=1, null=True)
 	# Again, it's a good idea to store the rent in pence
+
+
+class ShoppingItem(models.Model):
+	name = models.CharField(max_length=30)
+	creator = models.ForeignKey(User, on_delete=models.CASCADE)
+	house = models.ForeignKey(House, on_delete=models.CASCADE)
+	complete = models.BooleanField(default=False)
