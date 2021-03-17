@@ -46,10 +46,12 @@ def dashboard(request):
 
 	calendar = create_calendar()
 	house = request.user.house_set.first()
+	calendarItems = CalendarEntry.objects.filter(house=house, complete=False)
 	payments = Expense.objects.filter(date__house=house, date__complete=False)
 	tasks = Task.objects.filter(date__house=house, date__complete=False)
 
-	return render(request, 'app/dashboard.html', {'tasks': tasks, 'calendar': calendar, 'house': house, 'payments': payments})
+
+	return render(request, 'app/dashboard.html', {'events': calendarItems, 'tasks': tasks, 'calendar': calendar, 'house': house, 'payments': payments})
 
 
 class SignUp(View):

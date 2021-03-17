@@ -108,10 +108,10 @@
 				},
 
 				events: [
-					{% for task in tasks %}
+					{% for event in events %}
 						{
-							title: '{{ task.date.title }}',
-							start: new Date({{ task.date.date.year }}, {{ task.date.date.month }} - 1, {{ task.date.date.day }}), // we subtract one from the month as js counts months from 0
+							title: '{{ event.title }}',
+							start: new Date({{ event.date.year }}, {{ event.date.month }} - 1, {{ event.date.day }}), // we subtract one from the month as js counts months from 0
 							allDay: true,
 							className: 'info'
 						},
