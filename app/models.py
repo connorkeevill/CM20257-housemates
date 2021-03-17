@@ -67,6 +67,7 @@ class CalendarEntry(models.Model):
 	description = models.TextField()
 	date = models.DateField()
 	house = models.ForeignKey(House, on_delete=models.CASCADE)
+	complete = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.title
