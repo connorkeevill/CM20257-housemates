@@ -252,7 +252,6 @@
             </div>
         </div>
 
-        <!-- Insert calendar in here -->
         <div class="row">
             <div id='calendar' class="m-auto mb-5">
 
@@ -294,6 +293,11 @@
                                                         <td class="cell100 column2">{{ task.date.description }}</td>
                                                         <td class="cell100 column3">{{ task.date.date }}</td>
                                                         <td class="cell100 column4">{{ task.author }}</td>
+                                                        <td class="cell100 column5">
+                                                    <form method="post" action="{% url 'calendar-item-complete' task.date.id %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-secondary">Tick off</button>
+                                                    </form></td>
                                                     </tr>
                                                 {% endfor %}
                                             {% endautoescape %}
@@ -335,6 +339,12 @@
                                                     <td class="cell100 column2">{{ payment.date.title }}</td>
                                                     <td class="cell100 column3">{{ payment.date.date }}</td>
                                                     <td class="cell100 column4">{{ payment.recipient }}</td>
+                                                    <td class="cell100 column5">
+                                                    <form method="post" action="{% url 'calendar-item-complete' payment.date.id %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit"  class="btn btn-secondary">Settle</button>
+                                                    </form>
+                                                    </td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

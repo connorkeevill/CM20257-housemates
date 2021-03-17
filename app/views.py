@@ -46,8 +46,8 @@ def dashboard(request):
 
 	calendar = create_calendar()
 	house = request.user.house_set.first()
-	payments = Expense.objects.filter(date__house=house)
-	tasks = Task.objects.filter(date__house=house)
+	payments = Expense.objects.filter(date__house=house, date__complete=False)
+	tasks = Task.objects.filter(date__house=house, date__complete=False)
 
 	return render(request, 'app/dashboard.html', {'tasks': tasks, 'calendar': calendar, 'house': house, 'payments': payments})
 
@@ -198,6 +198,16 @@ def completeShoppingList(request, id):
 	item.save()
 
 	return redirect('shopping-list')
+
+
+def completeCalendarItem(request, id):
+
+	item = CalendarEntry.objects.get(id=id)
+	item.complete = True
+	item.save()
+
+	return redirect('dashboard')
+
 
 class RentDistribution(View):
 

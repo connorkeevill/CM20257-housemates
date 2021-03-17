@@ -18,5 +18,6 @@ urlpatterns = [
 	path('house/', house_admin_required(login_required(views.HousePage.as_view())), name='house'),
 	path('shopping-list/', login_required(house_required(views.ShoppingList.as_view())), name='shopping-list'),
 	path('shopping-list-complete/<int:id>/', views.completeShoppingList, name='shopping-list-complete'),
+	path('calendar-item-complete/<int:id>/', views.completeCalendarItem, name='calendar-item-complete'),
 	path('rent-distribution/', views.RentDistribution.as_view(), name='rent-distribution')
 ]
