@@ -10,15 +10,37 @@
 {% block dash_content %}
     <h1>{{ house.name }} Rent Distribution</h1>
     <h2 style="padding-top:20px; padding-right:270px; text-align:right">Total Rent</h2>
+    <p style="padding-top:5px; padding-right:283px; text-align:right" id="output"></p>
     <form method="post">
         {% csrf_token %}
         {{ form | crispy }}
         <button class="btn btn-outline-dark" type="submit">Update room</button>
     </form>
     <h3>Rooms in {{ house.name }}</h3>
+     <script type="text/javascript">
+            let sum = 0;
+            let count1 = 0;
+            let count2 = 0;
+            let total = [];
+        </script>
     {% for room in rooms %}
+        <script> {
+            count1++;
+            }
+        </script>
          <h6 style="padding-left:20px; text-align:left">{{ room.name }} </h6>
         <p style="padding-left:20px; padding-bottom:10px; text-align:left">Rent: {{ room.rent }} per month</p>
+    {% endfor %}
+    {% for room in rooms %}
+    <script> {
+            total[count2] = {{ room.rent }}
+            sum = sum + total[count2];
+            count2++;
+            if(count2 === count1) {
+               document.getElementById("output").innerHTML = sum + " per month";
+            }
+            }
+        </script>
     {% endfor %}
 {% endblock %}
 </body>
