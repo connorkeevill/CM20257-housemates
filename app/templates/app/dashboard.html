@@ -1,236 +1,188 @@
 {% extends "app/dashboard-base.html" %}
 {% block calendar_script %}
-<script>
+    <script>
 
-	$(document).ready(function() {
-	    var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+		$(document).ready(function () {
+			var date = new Date();
+			var d = date.getDate();
+			var m = date.getMonth();
+			var y = date.getFullYear();
 
-		/*  className colors
+			/*  className colors
 
-		className: default(transparent), important(red), chill(pink), success(green), info(blue)
+			className: default(transparent), important(red), chill(pink), success(green), info(blue)
 
-		*/
+			*/
 
 
-		/* initialize the external events
-		-----------------------------------------------------------------*/
+			/* initialize the external events
+			-----------------------------------------------------------------*/
 
-		$('#external-events div.external-event').each(function() {
+			$('#external-events div.external-event').each(function () {
 
-			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-			// it doesn't need to have a start or end
-			var eventObject = {
-				title: $.trim($(this).text()) // use the element's text as the event title
-			};
+				// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+				// it doesn't need to have a start or end
+				var eventObject = {
+					title: $.trim($(this).text()) // use the element's text as the event title
+				};
 
-			// store the Event Object in the DOM element so we can get to it later
-			$(this).data('eventObject', eventObject);
+				// store the Event Object in the DOM element so we can get to it later
+				$(this).data('eventObject', eventObject);
 
-			// make the event draggable using jQuery UI
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
+				// make the event draggable using jQuery UI
+				$(this).draggable({
+					zIndex: 999,
+					revert: true,      // will cause the event to go back to its
+					revertDuration: 0  //  original position after the drag
+				});
+
 			});
 
-		});
 
+			/* initialize the calendar
+			-----------------------------------------------------------------*/
 
-		/* initialize the calendar
-		-----------------------------------------------------------------*/
+			var calendar = $('#calendar').fullCalendar({
+				header: {
+					left: 'title',
+					center: 'agendaDay,agendaWeek,month',
+					right: 'prev,next today'
+				},
+				editable: true,
+				firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
+				selectable: true,
+				defaultView: 'month',
 
-		var calendar =  $('#calendar').fullCalendar({
-			header: {
-				left: 'title',
-				center: 'agendaDay,agendaWeek,month',
-				right: 'prev,next today'
-			},
-			editable: true,
-			firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
-			selectable: true,
-			defaultView: 'month',
+				axisFormat: 'h:mm',
+				columnFormat: {
+					month: 'ddd',    // Mon
+					week: 'ddd d', // Mon 7
+					day: 'dddd M/d',  // Monday 9/7
+					agendaDay: 'dddd d'
+				},
+				titleFormat: {
+					month: 'MMMM yyyy', // September 2009
+					week: "MMMM yyyy", // September 2009
+					day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
+				},
+				allDaySlot: false,
+				selectHelper: true,
+				select: function (start, end, allDay) {
+					var title = prompt('Event Title:');
+					if (title) {
+						calendar.fullCalendar('renderEvent',
+							{
+								title: title,
+								start: start,
+								end: end,
+								allDay: allDay
+							},
+							true // make the event "stick"
+						);
+					}
+					calendar.fullCalendar('unselect');
+				},
+				droppable: true, // this allows things to be dropped onto the calendar !!!
+				drop: function (date, allDay) { // this function is called when something is dropped
 
-			axisFormat: 'h:mm',
-			columnFormat: {
-                month: 'ddd',    // Mon
-                week: 'ddd d', // Mon 7
-                day: 'dddd M/d',  // Monday 9/7
-                agendaDay: 'dddd d'
-            },
-            titleFormat: {
-                month: 'MMMM yyyy', // September 2009
-                week: "MMMM yyyy", // September 2009
-                day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
-            },
-			allDaySlot: false,
-			selectHelper: true,
-			select: function(start, end, allDay) {
-				var title = prompt('Event Title:');
-				if (title) {
-					calendar.fullCalendar('renderEvent',
+					// retrieve the dropped element's stored Event Object
+					var originalEventObject = $(this).data('eventObject');
+
+					// we need to copy it, so that multiple events don't have a reference to the same object
+					var copiedEventObject = $.extend({}, originalEventObject);
+
+					// assign it the date that was reported
+					copiedEventObject.start = date;
+					copiedEventObject.allDay = allDay;
+
+					// render the event on the calendar
+					// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+					$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+					// is the "remove after drop" checkbox checked?
+					if ($('#drop-remove').is(':checked')) {
+						// if so, remove the element from the "Draggable Events" list
+						$(this).remove();
+					}
+
+				},
+
+				events: [
+					{% for task in tasks %}
 						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
+							title: '{{ task.date.title }}',
+							start: new Date({{ task.date.date.year }}, {{ task.date.date.month }} - 1, {{ task.date.date.day }}), // we subtract one from the month as js counts months from 0
+							allDay: true,
+							className: 'info'
 						},
-						true // make the event "stick"
-					);
-				}
-				calendar.fullCalendar('unselect');
-			},
-			droppable: true, // this allows things to be dropped onto the calendar !!!
-			drop: function(date, allDay) { // this function is called when something is dropped
-
-				// retrieve the dropped element's stored Event Object
-				var originalEventObject = $(this).data('eventObject');
-
-				// we need to copy it, so that multiple events don't have a reference to the same object
-				var copiedEventObject = $.extend({}, originalEventObject);
-
-				// assign it the date that was reported
-				copiedEventObject.start = date;
-				copiedEventObject.allDay = allDay;
-
-				// render the event on the calendar
-				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-				// is the "remove after drop" checkbox checked?
-				if ($('#drop-remove').is(':checked')) {
-					// if so, remove the element from the "Draggable Events" list
-					$(this).remove();
-				}
-
-			},
-
-			events: [
-				{% autoescape on %}
-                    {% for task in tasks %}
-                        {
-                        title: '{{ task.title }}',
-					    start: new Date({{ task.due_date }}),
-					    allDay: true,
-					    className: 'info'
-					    },
-                    {% endfor %}
-                {% endautoescape %}
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false,
-					className: 'info'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false,
-					className: 'info'
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false,
-					className: 'important'
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false,
-					className: 'important'
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false,
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'https://ccp.cloudaccess.net/aff.php?aff=5188',
-					className: 'success'
-				}
-			],
+					{% endfor %}
+				],
+			});
 		});
 
+    </script>
+    <style>
 
-	});
+        body {
+            margin-bottom: 40px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            background: url(http://www.digiphotohub.com/wp-content/uploads/2015/09/bigstock-Abstract-Blurred-Background-Of-92820527.jpg);
+        }
 
-</script>
-<style>
+        #wrap {
+            width: 1100px;
+            margin: 0 auto;
+        }
 
-	body {
-	    margin-bottom: 40px;
-		margin-top: 40px;
-		text-align: center;
-		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		background:url(http://www.digiphotohub.com/wp-content/uploads/2015/09/bigstock-Abstract-Blurred-Background-Of-92820527.jpg);
-		}
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            text-align: left;
+        }
 
-	#wrap {
-		width: 1100px;
-		margin: 0 auto;
-		}
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
 
-	#external-events {
-		float: left;
-		width: 150px;
-		padding: 0 10px;
-		text-align: left;
-		}
+        .external-event { /* try to mimick the look of a real event */
+            margin: 10px 0;
+            padding: 2px 4px;
+            background: #3366CC;
+            color: #fff;
+            font-size: .85em;
+            cursor: pointer;
+        }
 
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-		}
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
 
-	.external-event { /* try to mimick the look of a real event */
-		margin: 10px 0;
-		padding: 2px 4px;
-		background: #3366CC;
-		color: #fff;
-		font-size: .85em;
-		cursor: pointer;
-		}
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
 
-	#external-events p {
-		margin: 1.5em 0;
-		font-size: 11px;
-		color: #666;
-		}
+        #calendar {
+            /* 		float: right; */
+            margin: 0 auto;
+            width: 900px;
+            background-color: #FFFFFF;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px #C3C3C3;
+            -webkit-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+            -moz-box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+            box-shadow: 0px 0px 21px 2px rgba(0, 0, 0, 0.18);
+        }
 
-	#external-events p input {
-		margin: 0;
-		vertical-align: middle;
-		}
-
-	#calendar {
-/* 		float: right; */
-        margin: 0 auto;
-		width: 900px;
-		background-color: #FFFFFF;
-		  border-radius: 6px;
-        box-shadow: 0 1px 2px #C3C3C3;
-		-webkit-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
--moz-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
-		}
-
-</style>
+    </style>
 {% endblock calendar_script %}
 {% block dash_content %}
     <div class="container-fluid">
@@ -302,87 +254,128 @@ box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
 
         <!-- Insert calendar in here -->
         <div class="row">
-        <div class="col-xl-6">
+            <div class="col-xl-6">
                 <div id='calendar' class="card-body">
 
                 </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-bar mr-1"></i>
-                    House Members
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover table-bordered table-sm">
-                        <caption> Status of HouseMates</caption>
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar mr-1"></i>
+                        House Members
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered table-sm">
+                            <caption> Status of HouseMates</caption>
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        {% for houseMember in house.inhabitants.all %}
-                        <tr>
-                            <td>{{ houseMember.Profile.firstName}} {{ houseMember.Profile.surname }}</td>
-                            <td>{{ houseMember.username }}</td>
+                            {% for houseMember in house.inhabitants.all %}
+                                <tr>
+                                    <td>{{ houseMember.Profile.firstName }} {{ houseMember.Profile.surname }}</td>
+                                    <td>{{ houseMember.username }}</td>
 
-                            {% if houseMember.Profile.status.type == 'Available' %}
-                            <td class="table-success">{{ houseMember.Profile.status }}</td>
-                            {% elif houseMember.Profile.status.type == 'Away' %}
-                            <td class="table-warning">{{ houseMember.Profile.status }}</td>
-                            {% elif houseMember.Profile.status.type == 'Busy' %}
-                            <td>{{ houseMember.Profile.status }}</td>
-                            {% else %}
-                            <td class="table-secondary">{{ houseMember.Profile.status }}</td>
-                            {% endif %}
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                    {% if houseMember.Profile.status.type == 'Available' %}
+                                        <td class="table-success">{{ houseMember.Profile.status }}</td>
+                                    {% elif houseMember.Profile.status.type == 'Away' %}
+                                        <td class="table-warning">{{ houseMember.Profile.status }}</td>
+                                    {% elif houseMember.Profile.status.type == 'Busy' %}
+                                        <td>{{ houseMember.Profile.status }}</td>
+                                    {% else %}
+                                        <td class="table-secondary">{{ houseMember.Profile.status }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-             </div>
             </div>
         </div>
 
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="limiter">
-                        <div class="wrap-table100">
-                            <div class="table100 ver2 m-b-110">
-                                <div class="table100-head">
-                                    <table>
-                                        <thead>
-                                        <tr class="row100 head">
-                                            <th class="cell100 column1">Tasks</th>
-                                            <th class="cell100 column2">Description</th>
-                                            <th class="cell100 column3">Due Date</th>
-                                            <th id="task-author-column" class="cell100 column4">Author</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="limiter">
+                            <div class="wrap-table100">
+                                <div class="table100 ver2 m-b-110">
+                                    <div class="table100-head">
+                                        <table>
+                                            <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Tasks</th>
+                                                <th class="cell100 column2">Description</th>
+                                                <th class="cell100 column3">Due Date</th>
+                                                <th id="task-author-column" class="cell100 column4">Author</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
 
-                                <div class="table100-body js-pscroll">
-                                    <table>
-                                        <tbody>
-                                        {% autoescape on %}
-                                            {% for task in tasks %}
+                                    <div class="table100-body js-pscroll">
+                                        <table>
+                                            <tbody>
+                                            {% autoescape on %}
+                                                {% for task in tasks %}
+                                                    <tr class="row100 body">
+                                                        <td class="cell100 column1">{{ task.date.title }}</td>
+                                                        <td class="cell100 column2">{{ task.date.description }}</td>
+                                                        <td class="cell100 column3">{{ task.date.date }}</td>
+                                                        <td class="cell100 column4">{{ task.author }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endautoescape %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="limiter">
+                            <div class="wrap-table100">
+                                <div class="table100 ver2 m-b-110">
+                                    <div class="table100-head">
+                                        <table>
+                                            <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Payments</th>
+                                                <th class="cell100 column2">Description</th>
+                                                <th class="cell100 column3">Due Date</th>
+                                                <th id="payment-author-column" class="cell100 column4">Author</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+
+                                    <div class="table100-body js-pscroll">
+                                        <table>
+                                            <tbody>
+                                            <!-- Placeholders until we can request from DB -->
+                                            {% for payment in payments %}
                                                 <tr class="row100 body">
-                                                    <td class="cell100 column1">{{ task.date.title }}</td>
-                                                    <td class="cell100 column2">{{ task.date.description }}</td>
-                                                    <td class="cell100 column3">{{ task.date.date }}</td>
-                                                    <td class="cell100 column4">{{ task.author }}</td>
+                                                    <td class="cell100 column1">{{ payment.amount }}</td>
+                                                    <td class="cell100 column2">{{ payment.date.title }}</td>
+                                                    <td class="cell100 column3">{{ payment.date.date }}</td>
+                                                    <td class="cell100 column4">{{ payment.recipient }}</td>
                                                 </tr>
                                             {% endfor %}
-                                        {% endautoescape %}
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -390,47 +383,6 @@ box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="limiter">
-                        <div class="wrap-table100">
-                            <div class="table100 ver2 m-b-110">
-                                <div class="table100-head">
-                                    <table>
-                                        <thead>
-                                        <tr class="row100 head">
-                                            <th class="cell100 column1">Payments</th>
-                                            <th class="cell100 column2">Description</th>
-                                            <th class="cell100 column3">Due Date</th>
-                                            <th id="payment-author-column" class="cell100 column4">Author</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-
-                                <div class="table100-body js-pscroll">
-                                    <table>
-                                        <tbody>
-                                        <!-- Placeholders until we can request from DB -->
-                                        {% for payment in payments %}
-                                            <tr class="row100 body">
-                                                <td class="cell100 column1">{{ payment.amount }}</td>
-                                                <td class="cell100 column2">{{ payment.date.title }}</td>
-                                                <td class="cell100 column3">{{ payment.date.date }}</td>
-                                                <td class="cell100 column4">{{ payment.recipient }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     </div>
 {% endblock dash_content %}
 
