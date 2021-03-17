@@ -189,7 +189,7 @@
         <h1 class="dashboard-title">Dashboard</h1>
 
         <div class="row">
-            <div class="col-xl">
+            <div class="col-xl-7">
                 <div id="myModal-task" class="modal">
 
                     <!-- Modal content -->
@@ -218,7 +218,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl">
+            <div class="col-xl-7">
                 <div id="myModal-payment" class="modal">
 
                     <!-- Modal content -->
@@ -254,51 +254,15 @@
 
         <!-- Insert calendar in here -->
         <div class="row">
-            <div class="col-xl-6">
-                <div id='calendar' class="card-body">
+            <div id='calendar' class="m-auto mb-5">
 
-                </div>
-            </div>
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-bar mr-1"></i>
-                        House Members
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-hover table-bordered table-sm">
-                            <caption> Status of HouseMates</caption>
-                            <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for houseMember in house.inhabitants.all %}
-                                <tr>
-                                    <td>{{ houseMember.Profile.firstName }} {{ houseMember.Profile.surname }}</td>
-                                    <td>{{ houseMember.username }}</td>
-
-                                    {% if houseMember.Profile.status.type == 'Available' %}
-                                        <td class="table-success">{{ houseMember.Profile.status }}</td>
-                                    {% elif houseMember.Profile.status.type == 'Away' %}
-                                        <td class="table-warning">{{ houseMember.Profile.status }}</td>
-                                    {% elif houseMember.Profile.status.type == 'Busy' %}
-                                        <td>{{ houseMember.Profile.status }}</td>
-                                    {% else %}
-                                        <td class="table-secondary">{{ houseMember.Profile.status }}</td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </div>
+    <div class="row pb-5">
+        <p>
+
+        </p>
+    </div>
 
         <div class="row">
             <div class="col-xl-6">

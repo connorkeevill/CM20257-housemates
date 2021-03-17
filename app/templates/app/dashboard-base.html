@@ -61,6 +61,36 @@
                     </nav>
                 </div>
             </div>
+
+            <nav class="sb-sidenav-menu-nested nav">
+                <caption> Status of house mates</caption>
+                <table class="table table-hover table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th class="text-secondary" scope="col">Name</th>
+                        <th class="text-secondary" scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for houseMember in house.inhabitants.all %}
+                        <tr>
+                            <td class="text-secondary">{{ houseMember.Profile.firstName }} {{ houseMember.Profile.surname }}</td>
+
+                            {% if houseMember.Profile.status.type == 'Available' %}
+                                <td class="table-success">{{ houseMember.Profile.status }}</td>
+                            {% elif houseMember.Profile.status.type == 'Away' %}
+                                <td class="table-warning">{{ houseMember.Profile.status }}</td>
+                            {% elif houseMember.Profile.status.type == 'Busy' %}
+                                <td>{{ houseMember.Profile.status }}</td>
+                            {% else %}
+                                <td class="table-secondary">{{ houseMember.Profile.status }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </nav>
+
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
                 <p>{{ user.Profile.firstName }} {{ user.Profile.surname }}</p>
