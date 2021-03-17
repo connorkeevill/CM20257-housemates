@@ -195,7 +195,7 @@
                     <!-- Modal content -->
                     <div class="modal-content">
 
-                        <form id="/dashboard-form" action="/dashboard/" method="post">
+                        <form id="/dashboard-form" action="{% url 'dashboard' %}" method="post">
                             {% csrf_token %}
                             Please add the details for your new task
                             <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new
@@ -224,7 +224,7 @@
                     <!-- Modal content -->
                     <div class="modal-content">
 
-                        <form id="/dashboard-form" action="/dashboard/" method="post">
+                        <form id="/dashboard-form" action="{% url 'dashboard' %}" method="post">
                             {% csrf_token %}
                             Please add the details for your new payment
                             <button id="submit-task" style='float: right; padding: 10px;' type="submit">Submit new
