@@ -230,3 +230,4 @@ fabric.properties
 .venv/
 
 .staticfiles/
+/staticfiles/
