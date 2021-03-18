@@ -13,19 +13,16 @@
         <div class="row">
             <div class="col">
                 <form method="post">
+                    <h2>Create your room</h2>
                     {% csrf_token %}
-                    {{ form | crispy }}
-                    <button class="btn btn-outline-dark" type="submit">Update room</button>
-                </form>
-            </div>
-            <div class="row">
 
+                    {{ form | crispy }}
+                    <button class="btn btn-dark" type="submit">Add your room</button>
+                </form>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h2 style="padding-top:20px; padding-right:270px; text-align:right">Total Rent</h2>
-                <p style="padding-top:5px; padding-right:283px; text-align:right" id="output"></p>
                 <h3>Rooms in {{ house.name }}</h3>
                 <ul class="list-group">
                     <script type="text/javascript">
@@ -44,19 +41,22 @@
                             Rent: £{{ room.rent }} per month
                         </li>
                     {% endfor %}
-                    {% for room in rooms %}
-                        <script> {
-							total[count2] = {{ room.rent }}
-								sum = sum + total[count2];
-							count2++;
-							if (count2 === count1) {
-								document.getElementById("output").innerHTML = sum + " per month";
-							}
-						}
-                        </script>
-                        </ul>
-
-                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col">
+                <h2 style="padding-top:20px; padding-right:270px; text-align:right">Total Rent</h2>
+                <p style="padding-top:5px; padding-right:283px; text-align:right" id="output"></p>
+                {% for room in rooms %}
+                    <script> {
+                        total[count2] = {{ room.rent }}
+                            sum = sum + total[count2];
+                        count2++;
+                        if (count2 === count1) {
+                            document.getElementById("output").innerHTML = sum + " per month";
+                        }
+                    }
+                    </script>
+                {% endfor %}
             </div>
         </div>
     </div>
