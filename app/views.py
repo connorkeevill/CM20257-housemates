@@ -120,10 +120,10 @@ class CreateHouse(View):
 		return render(request, 'app/create-house.html')
 
 	def post(self, request):
-		currentHouseRelation = HouseMembership.objects.get(user=request.user, current=True)
+		currentHouseRelation = HouseMembership.objects.get(user=request.user, currentHouse=True)
 
 		if currentHouseRelation is not None:
-			currentHouseRelation.current = False
+			currentHouseRelation.currentHouse = False
 			currentHouseRelation.save()
 
 		houseName = request.POST.get('house-name')
@@ -144,10 +144,10 @@ class JoinHouse(View):
 		return render(request, 'app/join-house.html', {'house':houses})
 
 	def post(self, request):
-		currentHouseRelation = HouseMembership.objects.get(user=request.user, current=True)
+		currentHouseRelation = HouseMembership.objects.get(user=request.user, currentHouse=True)
 
 		if currentHouseRelation is not None:
-			currentHouseRelation.current = False
+			currentHouseRelation.currentHouse = False
 			currentHouseRelation.save()
 
 		houseCode = request.POST.get('code')
