@@ -237,7 +237,7 @@
                                    placeholder='payment amount' required/>
                             <!-- pull the data from house members to let user pick -->
                             {% for user in inhabitants %}
-                                <input type="checkbox" id="payees" name="payees" placeholder='payees' value="{{ user.id }}" required/>
+                                <input type="checkbox" id="payees" name="payees" placeholder='payees' value="{{ user.id }}"/>
                                 <label for="payees">{{ user.Profile.firstName}} {{ user.Profile.surname }}</label>
                             {% endfor %}
                             <input type="date" id="payment_date_due" name="payment_date_due"
