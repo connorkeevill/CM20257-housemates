@@ -33,16 +33,18 @@ def dashboard(request):
 			payment_name = request.POST.get('payment_name')
 			payment_amount = request.POST.get('payment_amount')
 			payment_date_due = request.POST.get('payment_date_due')
-			payment_recipient = request.POST.get('recipient')
 			payment_payees = request.POST.get('payees')
 
 			# need to get author from
 			new_calendar_entry = CalendarEntry(title=payment_name, description="", date=payment_date_due,
-											   house=request.user.house_set.first())
+											   house=request.user.house_set.get(housemembership__currentHouse=True))
 			new_calendar_entry.save()
-			new_payment = Expense(amount=payment_amount, recipient=payment_recipient, payees=payment_payees,
-								  date=new_calendar_entry)
+			new_payment = Expense(amount=payment_amount, recipient=request.user,date=new_calendar_entry)
 			new_payment.save()
+
+			for payee in payment_payees:
+				new_payment.payees.add(User.objects.get(id=int(payee)))
+
 
 	calendar = create_calendar()
 	house = request.user.house_set.first()

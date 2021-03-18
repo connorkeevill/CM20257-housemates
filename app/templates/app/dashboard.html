@@ -111,7 +111,7 @@
 					{% for event in events %}
 						{
 							title: '{{ event.title }}',
-							start: new Date({{ event.date.year }}, {{ event.date.month }} - 1, {{ event.date.day }}), // we subtract one from the month as js counts months from 0
+							start: new Date({{ event.date.year }}, {{ event.date.month }} -1, {{ event.date.day }}), // we subtract one from the month as js counts months from 0
 							allDay: true,
 							className: 'info'
 						},
@@ -237,8 +237,9 @@
                                    placeholder='payment amount' required/>
                             <!-- pull the data from house members to let user pick -->
                             {% for user in inhabitants %}
-                                <input type="checkbox" id="payees" name="payees" placeholder='payees' value="{{ user.id }}"/>
-                                <label for="payees">{{ user.Profile.firstName}} {{ user.Profile.surname }}</label>
+                                <input type="checkbox" id="payees" name="payees" placeholder='payees'
+                                       value="{{ user.id }}"/>
+                                <label for="payees">{{ user.Profile.firstName }} {{ user.Profile.surname }}</label>
                             {% endfor %}
                             <input type="date" id="payment_date_due" name="payment_date_due"
                                    placeholder='payment due date'
@@ -257,11 +258,11 @@
 
             </div>
         </div>
-    <div class="row pb-5">
-        <p>
+        <div class="row pb-5">
+            <p>
 
-        </p>
-    </div>
+            </p>
+        </div>
 
         <div class="row">
             <div class="col-xl-6">
@@ -294,10 +295,14 @@
                                                         <td class="cell100 column3">{{ task.date.date }}</td>
                                                         <td class="cell100 column4">{{ task.author }}</td>
                                                         <td class="cell100 column5">
-                                                    <form method="post" action="{% url 'calendar-item-complete' task.date.id %}">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-secondary">Tick off</button>
-                                                    </form></td>
+                                                            <form method="post"
+                                                                  action="{% url 'calendar-item-complete' task.date.id %}">
+                                                                {% csrf_token %}
+                                                                <button type="submit" class="btn btn-secondary">Tick
+                                                                    off
+                                                                </button>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 {% endfor %}
                                             {% endautoescape %}
@@ -320,9 +325,9 @@
                                         <table>
                                             <thead>
                                             <tr class="row100 head">
-                                                <th class="cell100 column1">Payments</th>
-                                                <th class="cell100 column2">Description</th>
-                                                <th class="cell100 column3">Due Date</th>
+                                                <th class="cell100 column1">Amount</th>
+                                                <th class="cell100 column3">Title</th>
+                                                <th class="cell100 column2">Payee(s)</th>
                                                 <th id="payment-author-column" class="cell100 column4">Author</th>
                                             </tr>
                                             </thead>
@@ -334,19 +339,25 @@
                                             <tbody>
                                             <!-- Placeholders until we can request from DB -->
                                             {% for payment in payments %}
-                                                <tr class="row100 body">
-                                                    <td class="cell100 column1">{{ payment.amount }}</td>
-                                                    <td class="cell100 column2">{{ payment.date.title }}</td>
-                                                    <td class="cell100 column3">{{ payment.date.date }}</td>
-                                                    <td class="cell100 column4">{{ payment.recipient }}</td>
-                                                    <td class="cell100 column5">
-                                                    <form method="post" action="{% url 'calendar-item-complete' payment.date.id %}">
+                                            <tr class="row100 body">
+                                                <td class="cell100 column1">{{ payment.amount }}</td>
+                                                <td class="cell100 column2">{{ payment.date.title }}</td>
+                                                <td class="cell100 column3">
+                                                    {% for payee in payment.payees.all %}
+                                                        {{ payee.Profile.firstName }} {{ payee.Profile.surname }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="cell100 column4">{{ payment.recipient }}</td>
+                                                <td class="cell100 column5">
+                                                    <form method="post"
+                                                          action="{% url 'calendar-item-complete' payment.date.id %}">
                                                         {% csrf_token %}
-                                                        <button type="submit"  class="btn btn-secondary">Settle</button>
+                                                        <button type="submit" class="btn btn-secondary">Settle
+                                                        </button>
                                                     </form>
-                                                    </td>
+                                                </td>
                                                 </tr>
-                                            {% endfor %}
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
