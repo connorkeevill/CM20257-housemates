@@ -24,7 +24,7 @@ def dashboard(request):
 
 			# need to get author from
 			new_calendar_entry = CalendarEntry(title=task_name, description=task_description, date=task_date_due,
-											   house=request.user.house_set.first())
+											   house=request.user.house_set.get(housemembership__currentHouse=True))
 			new_calendar_entry.save()
 			new_task = Task(author=request.user, date=new_calendar_entry)
 			new_task.save()
@@ -47,7 +47,7 @@ def dashboard(request):
 
 
 	calendar = create_calendar()
-	house = request.user.house_set.first()
+	house = request.user.house_set.get(housemembership__currentHouse=True)
 	calendarItems = CalendarEntry.objects.filter(house=house, complete=False)
 	payments = Expense.objects.filter(date__house=house, date__complete=False)
 	tasks = Task.objects.filter(date__house=house, date__complete=False)
@@ -96,7 +96,7 @@ class Account(View):
 		userForm = UserUpdateForm(instance=request.user)
 		profileForm = ProfileUpdateFrom(instance=request.user.Profile)
 
-		house = request.user.house_set.first()
+		house = request.user.house_set.get(housemembership__currentHouse=True)
 
 		context = {'userForm': userForm,
 				   'profileForm': profileForm,
@@ -162,8 +162,7 @@ class JoinHouse(View):
 class HousePage(View):
 	def get(self, request, form=None):
 
-		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
-		# change this to use a foreign key
+		house = request.user.house_set.get(housemembership__currentHouse=True)
 
 		rooms = house.room.all()
 
@@ -194,7 +193,7 @@ class HousePage(View):
 class ShoppingList(View):
 
 	def get(self, request):
-		house = request.user.house_set.first()
+		house = request.user.house_set.get(housemembership__currentHouse=True)
 
 		form = ShoppingListForm()
 		shoppingList = house.shoppingitem_set.filter(complete=False)
@@ -204,7 +203,7 @@ class ShoppingList(View):
 
 	def post(self, request):
 		form = ShoppingListForm(request.POST)
-		form.instance.house = request.user.house_set.first()
+		form.instance.house = request.user.house_set.get(housemembership__currentHouse=True)
 		form.instance.creator = request.user
 		form.save()
 
