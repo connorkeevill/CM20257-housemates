@@ -8,23 +8,41 @@
 </head>
 <body>
 {% block dash_content %}
-    <h1>{{ house.name }}</h1>
-    <h3>This house's code is {{ house.uniqueCode }}</h3>
-    <h3>Want to generate a new code?</h3>
-    <form method="post">
-        {% csrf_token %}
-        <button class="btn btn-dark" name="codeGenerator" type="submit">Generate a new code</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button class="btn btn-dark" type="submit">Update house</button>
-    </form>
+    <div class="container-fluid">
+        <h1>{{ house.name }}</h1>
+        <div class="row">
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button class="btn btn-dark" type="submit">Update house</button>
+                </form>
+            </div>
+        </div>
+    <p></p>
+        <div class="row">
+            <div class="col">
+                <form method="post">
+                    <label>This house's code is {{ house.uniqueCode }}</label>
+                    {% csrf_token %}
+                    <button class="btn btn-dark" name="codeGenerator" type="submit">Generate a new code</button>
+                </form>
+            </div>
+        </div>
 
-    <h3>Rooms</h3>
-    {% for room in rooms %}
-        <p>{{ room.name }} costs {{ room.rent }} per month</p>
-    {% endfor %}
+        <div class="row">
+            <div class="col">
+                <h3>Rooms & <Rent></Rent></h3>
+                <ul class="list-group">
+                    {% for room in rooms %}
+                        <li class="list-group-item">{{ room.inhabitant.Profile.firstName }}'s room, {{ room.name }}, costs
+                            £{{ room.rent }} per month
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 </body>
 </html>
