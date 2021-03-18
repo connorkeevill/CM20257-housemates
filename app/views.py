@@ -120,6 +120,12 @@ class CreateHouse(View):
 		return render(request, 'app/create-house.html')
 
 	def post(self, request):
+		currentHouseRelation = HouseMembership.objects.get(user=request.user, current=True)
+
+		if currentHouseRelation is not None:
+			currentHouseRelation.current = False
+			currentHouseRelation.save()
+
 		houseName = request.POST.get('house-name')
 		house = House(name=houseName)
 		house.save()
@@ -133,9 +139,17 @@ class CreateHouse(View):
 class JoinHouse(View):
 
 	def get(self, request):
-		return render(request, 'app/join-house.html')
+		houses = len(request.user.house_set.all())
+
+		return render(request, 'app/join-house.html', {'house':houses})
 
 	def post(self, request):
+		currentHouseRelation = HouseMembership.objects.get(user=request.user, current=True)
+
+		if currentHouseRelation is not None:
+			currentHouseRelation.current = False
+			currentHouseRelation.save()
+
 		houseCode = request.POST.get('code')
 		house = House.objects.get(uniqueCode=houseCode)
 
@@ -147,6 +161,7 @@ class JoinHouse(View):
 
 class HousePage(View):
 	def get(self, request, form=None):
+
 		house = request.user.house_set.first()  # If we ever allow multiple people to have houses then we'll have to
 		# change this to use a foreign key
 

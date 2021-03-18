@@ -1,15 +1,11 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Join House</title>
-</head>
-<body>
 {% extends "app/join-house-base.html" %}
 {% load crispy_forms_filters %}
 {% block join_house_content %}
     <div class="container">
         <div class="row justify-content-center mt-5">
-            <h2>You don't seem to be a member of a house yet - let's fix that!</h2>
+            {% if houses == 0 %}
+                <h2>You don't seem to be a member of a house yet - let's fix that!</h2>
+            {% endif  %}
         </div>
         <div class="row justify-content-center mt-5">
             <div class="col-lg-4 my-3">
