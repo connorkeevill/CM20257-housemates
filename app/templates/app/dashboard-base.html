@@ -81,7 +81,7 @@
                             {% elif houseMember.Profile.status.type == 'Away' %}
                                 <td class="table-warning">{{ houseMember.Profile.status }}</td>
                             {% elif houseMember.Profile.status.type == 'Busy' %}
-                                <td>{{ houseMember.Profile.status }}</td>
+                                <td class="table-danger">{{ houseMember.Profile.status }}</td>
                             {% else %}
                                 <td class="table-secondary">{{ houseMember.Profile.status }}</td>
                             {% endif %}
