@@ -19,5 +19,5 @@ urlpatterns = [
 	path('shopping-list/', login_required(house_required(views.ShoppingList.as_view())), name='shopping-list'),
 	path('shopping-list-complete/<int:id>/', views.completeShoppingList, name='shopping-list-complete'),
 	path('calendar-item-complete/<int:id>/', views.completeCalendarItem, name='calendar-item-complete'),
-	path('rent-distribution/', views.RentDistribution.as_view(), name='rent-distribution')
+	path('rent-distribution/', login_required(house_required(views.RentDistribution.as_view())), name='rent-distribution')
 ]
